@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { DarkModeToggle } from "../../DarkModeToggle/DarkModeToggle";
+import NavbarUser from "../../NavbarUser/NavbarUser";
 import MainMobileNavbar from "../MainMobileNavbar/MainMobileNavbar";
 import MainNavbar from "../MainNavbar/MainNavbar";
 
@@ -13,9 +14,10 @@ export default function MainHeader() {
         <MainMobileNavbar />
 
         {/* Desktop & mobile */}
-        <h1 className="flex items-center justify-end flex-1">
-          <Link href="/">some social media icons</Link>
-        </h1>
+        <div className="flex items-center justify-end flex-1 gap-2">
+          <DarkModeToggle />
+          <NavbarUser />
+        </div>
       </div>
     </header>
   );
