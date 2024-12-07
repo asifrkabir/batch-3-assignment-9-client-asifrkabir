@@ -14,6 +14,7 @@ import {
   type LucideIcon,
   Store,
   Users,
+  Boxes,
 } from "lucide-react";
 import DashboardSidebarMenuItemDropdown from "../DashboardSidebarMenuItemDropdown";
 import DashboardSidebarMenuItemSingle from "../DashboardSidebarMenuItemSingle";
@@ -56,6 +57,11 @@ const items: IMenuItem[] = [
     title: "Shops",
     url: "/admin-dashboard/shops",
     icon: Store,
+  },
+  {
+    title: "Products",
+    url: "/admin-dashboard/products",
+    icon: Boxes,
   },
   {
     title: "Payments",

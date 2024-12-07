@@ -14,7 +14,7 @@ const Users = () => {
   }
 
   if (isError) {
-    return <p>Something went wrong while fetching product categories.</p>;
+    return <p>Something went wrong while fetching users.</p>;
   }
 
   const users: IUser[] = data?.data || [];
