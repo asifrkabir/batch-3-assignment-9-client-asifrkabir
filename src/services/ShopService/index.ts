@@ -4,11 +4,10 @@
 import axiosInstance from "@/lib/AxiosInstance";
 import {
   IApiResponse,
-  ICreateProductCategory,
   IQueryParam,
   IShop,
   IToggleShopBlacklistStatus,
-  IUpdateShop,
+  IUpdateShop
 } from "@/types";
 
 export const getAllShops = async (params?: IQueryParam[]) => {

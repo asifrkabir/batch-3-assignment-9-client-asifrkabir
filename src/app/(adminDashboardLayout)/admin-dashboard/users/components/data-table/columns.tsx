@@ -8,7 +8,7 @@ import {
 import { IUser } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreVertical } from "lucide-react";
-import DeleteUserDropdownItem from "../DeleteUserDropdownItem/DeleteUserDropdownItem";
+import DeleteUserDropdownItem from "../DeleteUser/DeleteUserDropdownItem";
 
 export const columns: ColumnDef<IUser>[] = [
   {

@@ -8,6 +8,7 @@ import {
 import { IShop } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreVertical } from "lucide-react";
+import { ToggleShopModal } from "../ToggleShop/ToggleShopModal";
 
 export const columns: ColumnDef<IShop>[] = [
   {
@@ -76,7 +77,7 @@ export const columns: ColumnDef<IShop>[] = [
             <span className="sr-only">Actions</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {/* <DeleteUserDropdownItem id={shop._id as string} /> */}
+            <ToggleShopModal id={shop._id} isBlacklisted={shop.isBlacklisted} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
