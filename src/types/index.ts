@@ -1,5 +1,6 @@
 export * from "./api.type";
 export * from "./input.type";
+export * from "./order.type";
 export * from "./payment.type";
 export * from "./product.type";
 export * from "./productCategory.type";

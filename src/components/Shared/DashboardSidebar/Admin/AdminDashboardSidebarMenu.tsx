@@ -6,12 +6,13 @@ import {
   SidebarMenu,
 } from "@/components/ui/sidebar";
 import {
+  CircleDollarSign,
   House,
   LayoutDashboard,
   ListTodo,
   type LucideIcon,
-  Users,
   Store,
+  Users,
 } from "lucide-react";
 import DashboardSidebarMenuItemDropdown from "../DashboardSidebarMenuItemDropdown";
 import DashboardSidebarMenuItemSingle from "../DashboardSidebarMenuItemSingle";
@@ -54,6 +55,11 @@ const items: IMenuItem[] = [
     title: "Shops",
     url: "/admin-dashboard/shops",
     icon: Store,
+  },
+  {
+    title: "Payments",
+    url: "/admin-dashboard/payments",
+    icon: CircleDollarSign,
   },
 ];
 
