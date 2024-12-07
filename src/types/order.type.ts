@@ -6,7 +6,8 @@ export interface IOrder {
   _id: string;
   user: IUser;
   shop: IShop;
-  produts: IOrderProduct[];
+  products: IOrderProduct[];
+  totalPrice: number;
   status: "pending" | "complete";
   createdAt: string;
   updatedAt: string;

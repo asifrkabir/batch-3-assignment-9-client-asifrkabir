@@ -2,7 +2,7 @@
 
 import DataTableLoadingSkeleton from "@/components/Shared/DataTable/DataTableLoadingSkeleton";
 import { useGetAllOrders } from "@/hooks/order.hook";
-import { IOrder, IPayment } from "@/types";
+import { IOrder } from "@/types";
 import { columns } from "./data-table/columns";
 import { OrderDataTable } from "./data-table/data-table";
 

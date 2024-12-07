@@ -1,7 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getAllOrders } from "@/services/OrderService";
+import { getAllOrders, getOrderById } from "@/services/OrderService";
 import { IQueryParam } from "@/types";
 import { useQuery } from "@tanstack/react-query";
+
+export const getOrderByIdQuery = (id: string) => ({
+  queryKey: ["ORDER", id],
+  queryFn: async () => await getOrderById(id),
+});
+
+export const useGetOrderById = (id: string) => {
+  return useQuery({
+    ...getOrderByIdQuery(id),
+  });
+};
 
 export const getAllOrdersQuery = (params?: IQueryParam[]) => ({
   queryKey: ["ORDERS", params],
