@@ -40,7 +40,7 @@ const items: IMenuItem[] = [
     icon: LayoutDashboard,
   },
   {
-    title: "Categories",
+    title: "Product Categories",
     url: "/admin-dashboard/product-categories",
     icon: ListTodo,
   },

@@ -9,3 +9,10 @@ export interface IProductCategory {
 export interface ICreateProductCategory {
   name: string;
 }
+
+export interface IUpdateProductCategory {
+  id: string;
+  payload: {
+    name: string;
+  };
+}
