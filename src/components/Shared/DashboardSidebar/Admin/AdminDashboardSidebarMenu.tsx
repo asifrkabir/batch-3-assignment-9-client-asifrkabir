@@ -10,6 +10,7 @@ import {
   House,
   LayoutDashboard,
   ListTodo,
+  Logs,
   type LucideIcon,
   Store,
   Users,
@@ -60,6 +61,11 @@ const items: IMenuItem[] = [
     title: "Payments",
     url: "/admin-dashboard/payments",
     icon: CircleDollarSign,
+  },
+  {
+    title: "Orders",
+    url: "/admin-dashboard/orders",
+    icon: Logs,
   },
 ];
 
