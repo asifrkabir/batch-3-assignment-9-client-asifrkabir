@@ -28,11 +28,19 @@ export const registerUser = async (registrationData: FormData) => {
   } catch (error: any) {
     if (error.response) {
       const responseData = error.response.data as IApiResponse<null>;
+      const statusCode = error.response.status;
 
-      return responseData;
+      console.error(`API Error (${statusCode}):`, responseData);
+
+      return {
+        ...responseData,
+        statusCode,
+      };
     }
 
-    throw new Error(error.message || "Unknown error occurred");
+    throw new Error(
+      error.message || "Something went wrong. Please try again later."
+    );
   }
 };
 
@@ -52,11 +60,19 @@ export const loginUser = async (userData: FieldValues) => {
   } catch (error: any) {
     if (error.response) {
       const responseData = error.response.data as IApiResponse<null>;
+      const statusCode = error.response.status;
 
-      return responseData;
+      console.error(`API Error (${statusCode}):`, responseData);
+
+      return {
+        ...responseData,
+        statusCode,
+      };
     }
 
-    throw new Error(error.message || "Unknown error occurred");
+    throw new Error(
+      error.message || "Something went wrong. Please try again later."
+    );
   }
 };
 
@@ -99,6 +115,20 @@ export const getNewAccessToken = async () => {
 
     return res.data;
   } catch (error: any) {
-    throw new Error(error.message || "Failed to get new access token");
+    if (error.response) {
+      const responseData = error.response.data as IApiResponse<null>;
+      const statusCode = error.response.status;
+
+      console.error(`API Error (${statusCode}):`, responseData);
+
+      return {
+        ...responseData,
+        statusCode,
+      };
+    }
+
+    throw new Error(
+      error.message || "Something went wrong. Please try again later."
+    );
   }
 };

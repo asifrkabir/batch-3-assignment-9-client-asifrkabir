@@ -1,0 +1,79 @@
+import { DataTableColumnHeader } from "@/components/Shared/DataTable/data-table-column-header";
+import { Badge } from "@/components/ui/badge";
+import { IUser } from "@/types";
+import { ColumnDef } from "@tanstack/react-table";
+
+export const columns: ColumnDef<IUser>[] = [
+  {
+    accessorKey: "name",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Name" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="w-[150px]">{row.getValue("name")}</span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "email",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Email" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="w-[150px]">{row.getValue("email")}</span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "role",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Role" />
+    ),
+    cell: ({ row }) => {
+      const role = row.getValue("role");
+      let renderedRole = (
+        <div className="flex space-x-2">
+          <span className="w-[150px]">{row.getValue("role")}</span>
+        </div>
+      );
+
+      switch (role) {
+        case "admin":
+          renderedRole = <Badge className="uppercase bg-red-500">{role}</Badge>;
+          break;
+        case "vendor":
+          renderedRole = (
+            <Badge className="uppercase bg-blue-500">{role}</Badge>
+          );
+          break;
+        case "user":
+          renderedRole = (
+            <Badge className="uppercase bg-emerald-500">{role}</Badge>
+          );
+          break;
+
+        default:
+          break;
+      }
+
+      return renderedRole;
+    },
+    filterFn: (row, columnId, filterValue) => {
+      const cellValue = row.getValue(columnId);
+      // Check for exact match
+      return filterValue.includes(cellValue);
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+];
