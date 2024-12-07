@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   createProductCategory,
+  deleteProductCategory,
   getAllProductCategories,
   getProductCategoryById,
   updateProductCategory,
@@ -43,5 +44,11 @@ export const useCreateProductCategory = () => {
 export const useUpdateProductCategory = () => {
   return useMutation<any, Error, IUpdateProductCategory>({
     mutationFn: updateProductCategory,
+  });
+};
+
+export const useDeleteProductCategory = () => {
+  return useMutation<any, Error, string>({
+    mutationFn: deleteProductCategory,
   });
 };

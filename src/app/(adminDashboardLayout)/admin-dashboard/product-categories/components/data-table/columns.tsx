@@ -8,6 +8,7 @@ import {
 import { IProductCategory } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreVertical } from "lucide-react";
+import DeleteProductCategoryDropdownItem from "../../DeleteProductCategoryDropdownItem/DeleteProductCategoryDropdownItem";
 import { UpdateProductCategoryModal } from "../UpdateProductCategory/UpdateProductCategoryModal";
 
 export const columns: ColumnDef<IProductCategory>[] = [
@@ -52,7 +53,7 @@ export const columns: ColumnDef<IProductCategory>[] = [
           <DropdownMenuContent>
             <UpdateProductCategoryModal id={productCategory._id} />
             <DropdownMenuSeparator />
-            {/* <DeleteTodoDropdownItem id={todo._id} /> */}
+            <DeleteProductCategoryDropdownItem id={productCategory._id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

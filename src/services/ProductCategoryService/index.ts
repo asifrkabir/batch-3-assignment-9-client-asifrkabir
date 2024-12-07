@@ -128,3 +128,29 @@ export const updateProductCategory = async (
     );
   }
 };
+
+export const deleteProductCategory = async (id: string) => {
+  try {
+    const { data } = await axiosInstance.delete<IApiResponse<IProductCategory>>(
+      `/product-categories/${id}`
+    );
+
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      const responseData = error.response.data as IApiResponse<null>;
+      const statusCode = error.response.status;
+
+      console.error(`API Error (${statusCode}):`, responseData);
+
+      return {
+        ...responseData,
+        statusCode,
+      };
+    }
+
+    throw new Error(
+      error.message || "Something went wrong. Please try again later."
+    );
+  }
+};
