@@ -1,7 +1,14 @@
 import { DataTableColumnHeader } from "@/components/Shared/DataTable/data-table-column-header";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { IUser } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
+import { MoreVertical } from "lucide-react";
+import DeleteUserDropdownItem from "../../DeleteUserDropdownItem/DeleteUserDropdownItem";
 
 export const columns: ColumnDef<IUser>[] = [
   {
@@ -72,6 +79,27 @@ export const columns: ColumnDef<IUser>[] = [
       const cellValue = row.getValue(columnId);
       // Check for exact match
       return filterValue.includes(cellValue);
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    id: "actions",
+    header: () => <span className="sr-only">Actions</span>,
+    cell: ({ row }) => {
+      const user = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <MoreVertical className="h-5 w-5" />
+            <span className="sr-only">Actions</span>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DeleteUserDropdownItem id={user._id as string} />
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
     },
     enableSorting: false,
     enableHiding: false,

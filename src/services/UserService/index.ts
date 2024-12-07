@@ -37,3 +37,29 @@ export const getAllUsers = async (params?: IQueryParam[]) => {
     );
   }
 };
+
+export const deleteUser = async (userId: string) => {
+  try {
+    const { data } = await axiosInstance.delete<IApiResponse<IUser>>(
+      `/users/${userId}`
+    );
+
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      const responseData = error.response.data as IApiResponse<null>;
+      const statusCode = error.response.status;
+
+      console.error(`API Error (${statusCode}):`, responseData);
+
+      return {
+        ...responseData,
+        statusCode,
+      };
+    }
+
+    throw new Error(
+      error.message || "Something went wrong. Please try again later."
+    );
+  }
+};

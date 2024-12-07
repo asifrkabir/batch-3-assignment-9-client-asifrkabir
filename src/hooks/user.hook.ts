@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getAllUsers } from "@/services/UserService";
+import { deleteUser, getAllUsers } from "@/services/UserService";
 import { IQueryParam } from "@/types";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const getAllUsersQuery = (params?: IQueryParam[]) => ({
   queryKey: ["USERS"],
@@ -11,5 +11,11 @@ export const getAllUsersQuery = (params?: IQueryParam[]) => ({
 export const useGetAllUsers = (params?: IQueryParam[]) => {
   return useQuery({
     ...getAllUsersQuery(params),
+  });
+};
+
+export const useDeleteUser = () => {
+  return useMutation<any, Error, string>({
+    mutationFn: deleteUser,
   });
 };
