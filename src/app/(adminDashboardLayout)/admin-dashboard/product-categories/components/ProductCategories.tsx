@@ -1,11 +1,10 @@
 "use client";
 
+import DataTableLoadingSkeleton from "@/components/Shared/DataTable/DataTableLoadingSkeleton";
 import { useGetAllProductCategories } from "@/hooks/productCategory.hook";
 import { IProductCategory } from "@/types";
-import { ProductCategoryDataTable } from "./data-table/data-table";
 import { columns } from "./data-table/columns";
-import LoadingSpinner from "@/components/Shared/LoadingSpinner/LoadingSpinner";
-import DataTableLoadingSkeleton from "@/components/Shared/DataTable/DataTableLoadingSkeleton";
+import { ProductCategoryDataTable } from "./data-table/data-table";
 
 const ProductCategories = () => {
   const { data, isLoading, isError } = useGetAllProductCategories();
