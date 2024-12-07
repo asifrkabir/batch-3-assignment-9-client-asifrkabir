@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getAllProductCategories } from "@/services/ProductCategoryService";
+import {
+  createProductCategory,
+  getAllProductCategories,
+} from "@/services/ProductCategoryService";
 import { IQueryParam } from "@/types";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { ICreateProductCategory } from "./../types/productCategory.type";
 
 export const getAllProductCategoriesQuery = (params?: IQueryParam[]) => ({
   queryKey: ["PRODUCT_CATEGORIES", params],
@@ -11,5 +15,11 @@ export const getAllProductCategoriesQuery = (params?: IQueryParam[]) => ({
 export const useGetAllProductCategories = (params?: IQueryParam[]) => {
   return useQuery({
     ...getAllProductCategoriesQuery(params),
+  });
+};
+
+export const useCreateProductCategory = () => {
+  return useMutation<any, Error, ICreateProductCategory>({
+    mutationFn: createProductCategory,
   });
 };

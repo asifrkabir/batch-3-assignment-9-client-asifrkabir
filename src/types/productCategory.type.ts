@@ -5,3 +5,7 @@ export interface IProductCategory {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ICreateProductCategory {
+  name: string;
+}
