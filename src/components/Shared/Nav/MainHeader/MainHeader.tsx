@@ -5,7 +5,7 @@ import MainNavbar from "../MainNavbar/MainNavbar";
 
 export default function MainHeader() {
   return (
-    <header className="sticky top-0 w-full border-b bg-background px-4">
+    <header className="sticky z-10 top-0 w-full border-b bg-background px-4">
       <div className="h-14 flex items-center">
         {/* Desktop */}
         <MainNavbar />
