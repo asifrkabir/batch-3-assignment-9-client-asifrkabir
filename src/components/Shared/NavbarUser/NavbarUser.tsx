@@ -16,11 +16,13 @@ import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@/context/user.provider";
 import { logout } from "@/services/AuthService";
 import { protectedRoutes } from "@/constant";
+import Link from "next/link";
 
 const NavbarUser = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { user, setIsLoading: setUserLoading } = useUser();
+  let dashboardUrl = "";
 
   const handleLogout = () => {
     logout();
@@ -37,6 +39,21 @@ const NavbarUser = () => {
         Login
       </Button>
     );
+  }
+
+  switch (user?.role) {
+    case "admin":
+      dashboardUrl = "/admin-dashboard";
+      break;
+    case "user":
+      dashboardUrl = "/user-dashboard";
+      break;
+    case "vendor":
+      dashboardUrl = "/vendor-dashboard";
+      break;
+
+    default:
+      break;
   }
 
   return (
@@ -60,8 +77,9 @@ const NavbarUser = () => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href={dashboardUrl}>Dashboard</Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Button onClick={handleLogout} className="w-full">
