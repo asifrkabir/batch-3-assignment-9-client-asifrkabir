@@ -3,11 +3,13 @@ import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { IShop } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreVertical } from "lucide-react";
+import { DeleteShopModal } from "../DeleteShop/DeleteShopModal";
 import { ToggleShopModal } from "../ToggleShop/ToggleShopModal";
 
 export const columns: ColumnDef<IShop>[] = [
@@ -78,6 +80,8 @@ export const columns: ColumnDef<IShop>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <ToggleShopModal id={shop._id} isBlacklisted={shop.isBlacklisted} />
+            <DropdownMenuSeparator />
+            <DeleteShopModal id={shop._id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

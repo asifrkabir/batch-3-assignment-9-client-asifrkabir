@@ -25,13 +25,24 @@ const Products = () => {
   const products: IProduct[] = data?.data || [];
 
   return (
-    <div>
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {products.map((product) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
-      </div>
-    </div>
+    <>
+      {products.length > 0 ? (
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center gap-1 text-center my-40">
+          <h3 className="text-2xl font-bold tracking-tight">
+            No products are available right now
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            Please check back later.
+          </p>
+        </div>
+      )}
+    </>
   );
 };
 

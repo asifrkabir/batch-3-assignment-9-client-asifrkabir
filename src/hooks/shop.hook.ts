@@ -7,16 +7,8 @@ import {
   toggleShopBlacklistStatus,
   updateShop,
 } from "@/services/ShopService";
-import {
-  IApiResponse,
-  IQueryParam,
-  IShop,
-  IToggleShopBlacklistStatus,
-  IUpdateShop,
-} from "@/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import httpStatus from "http-status";
-import { toast } from "sonner";
+import { IQueryParam, IToggleShopBlacklistStatus, IUpdateShop } from "@/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const getAllShopsQuery = (params?: IQueryParam[]) => ({
   queryKey: ["SHOPS", params],
@@ -53,26 +45,8 @@ export const useUpdateShop = () => {
 };
 
 export const useDeleteShop = () => {
-  const queryClient = useQueryClient();
-
   return useMutation<any, Error, string>({
     mutationFn: deleteShop,
-    onSuccess: (res: IApiResponse<IShop>) => {
-      if (res.statusCode === httpStatus.OK) {
-        toast.success("Shop deleted successfully");
-
-        queryClient.invalidateQueries({
-          queryKey: ["SHOPS"],
-        });
-      } else {
-        console.error(res);
-        toast.error(res.message || "Failed to delete shop. Please try again.");
-      }
-    },
-    onError: (error) => {
-      console.error(error);
-      toast.error(error.message || "Failed to delete shop. Please try again.");
-    },
   });
 };
 
