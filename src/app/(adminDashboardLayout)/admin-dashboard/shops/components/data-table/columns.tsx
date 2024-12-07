@@ -5,12 +5,11 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IUser } from "@/types";
+import { IShop } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreVertical } from "lucide-react";
-import DeleteUserDropdownItem from "../DeleteUserDropdownItem/DeleteUserDropdownItem";
 
-export const columns: ColumnDef<IUser>[] = [
+export const columns: ColumnDef<IShop>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -27,14 +26,15 @@ export const columns: ColumnDef<IUser>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "email",
+    accessorKey: "owner",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Email" />
+      <DataTableColumnHeader column={column} title="Vendor" />
     ),
     cell: ({ row }) => {
+      const owner = row.original.owner;
       return (
         <div className="flex space-x-2">
-          <span className="w-[150px]">{row.getValue("email")}</span>
+          <span className="w-[150px]">{owner?.name || "Unknown"}</span>{" "}
         </div>
       );
     },
@@ -42,38 +42,18 @@ export const columns: ColumnDef<IUser>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "role",
+    accessorKey: "isBlacklisted",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Role" />
+      <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      const role = row.getValue("role");
-      let renderedRole = (
-        <div className="flex space-x-2">
-          <span className="w-[150px]">{row.getValue("role")}</span>
-        </div>
+      const isBlacklisted = row.getValue("isBlacklisted");
+
+      return isBlacklisted === true ? (
+        <Badge className="uppercase bg-red-500">Blacklisted</Badge>
+      ) : (
+        <Badge className="uppercase bg-emerald-500">Active</Badge>
       );
-
-      switch (role) {
-        case "admin":
-          renderedRole = <Badge className="uppercase bg-red-500">{role}</Badge>;
-          break;
-        case "vendor":
-          renderedRole = (
-            <Badge className="uppercase bg-blue-500">{role}</Badge>
-          );
-          break;
-        case "user":
-          renderedRole = (
-            <Badge className="uppercase bg-emerald-500">{role}</Badge>
-          );
-          break;
-
-        default:
-          break;
-      }
-
-      return renderedRole;
     },
     filterFn: (row, columnId, filterValue) => {
       const cellValue = row.getValue(columnId);
@@ -87,7 +67,7 @@ export const columns: ColumnDef<IUser>[] = [
     id: "actions",
     header: () => <span className="sr-only">Actions</span>,
     cell: ({ row }) => {
-      const user = row.original;
+      const shop = row.original;
 
       return (
         <DropdownMenu>
@@ -96,7 +76,7 @@ export const columns: ColumnDef<IUser>[] = [
             <span className="sr-only">Actions</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DeleteUserDropdownItem id={user._id as string} />
+            {/* <DeleteUserDropdownItem id={shop._id as string} /> */}
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -8,7 +8,7 @@ import {
 import { IProductCategory } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreVertical } from "lucide-react";
-import DeleteProductCategoryDropdownItem from "../../DeleteProductCategoryDropdownItem/DeleteProductCategoryDropdownItem";
+import DeleteProductCategoryDropdownItem from "../DeleteProductCategoryDropdownItem/DeleteProductCategoryDropdownItem";
 import { UpdateProductCategoryModal } from "../UpdateProductCategory/UpdateProductCategoryModal";
 
 export const columns: ColumnDef<IProductCategory>[] = [

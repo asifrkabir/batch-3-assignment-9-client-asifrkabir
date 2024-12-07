@@ -12,3 +12,21 @@ export interface IShop {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ICreateShop {
+  name: string;
+  logoUrl?: string;
+  description: string;
+}
+
+export interface IUpdateShop {
+  id: string;
+  formData: FormData;
+}
+
+export interface IToggleShopBlacklistStatus {
+  id: string;
+  payload: {
+    isBlacklisted: boolean;
+  };
+}
