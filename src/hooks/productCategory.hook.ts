@@ -6,12 +6,15 @@ import {
   getProductCategoryById,
   updateProductCategory,
 } from "@/services/ProductCategoryService";
-import { IQueryParam } from "@/types";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { IApiResponse, IQueryParam } from "@/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   ICreateProductCategory,
+  IProductCategory,
   IUpdateProductCategory,
 } from "./../types/productCategory.type";
+import httpStatus from "http-status";
+import { toast } from "sonner";
 
 export const getAllProductCategoriesQuery = (params?: IQueryParam[]) => ({
   queryKey: ["PRODUCT_CATEGORIES", params],
@@ -48,7 +51,29 @@ export const useUpdateProductCategory = () => {
 };
 
 export const useDeleteProductCategory = () => {
+  const queryClient = useQueryClient();
+
   return useMutation<any, Error, string>({
     mutationFn: deleteProductCategory,
+    onSuccess: (res: IApiResponse<IProductCategory>) => {
+      if (res.statusCode === httpStatus.OK) {
+        toast.success("Product category deleted successfully");
+
+        queryClient.invalidateQueries({
+          queryKey: ["PRODUCT_CATEGORIES"],
+        });
+      } else {
+        console.error(res);
+        toast.error(
+          res.message || "Failed to delete product category. Please try again."
+        );
+      }
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error(
+        error.message || "Failed to delete product category. Please try again."
+      );
+    },
   });
 };
