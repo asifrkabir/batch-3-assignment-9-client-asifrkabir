@@ -14,6 +14,7 @@ const AppInput = ({
   placeholder,
   required = false,
   disabled = false,
+  step = undefined,
 }: IProps) => {
   const {
     register,
@@ -33,6 +34,7 @@ const AppInput = ({
         disabled={disabled}
         placeholder={placeholder}
         className={`${errors[name] ? "border-red-500" : ""}`}
+        step={type === "number" && step ? step : undefined}
       />
       {errors[name] && (
         <span className="text-red-500 text-sm mt-1">

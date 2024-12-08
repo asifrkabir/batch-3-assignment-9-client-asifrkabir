@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  createProduct,
   deleteProduct,
   getAllProducts,
   getAllProductsForFeed,
+  getProductById,
+  updateProduct,
 } from "@/services/ProductService";
-import { IApiResponse, IProduct, IQueryParam } from "@/types";
+import { IApiResponse, IProduct, IQueryParam, IUpdateProduct } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import httpStatus from "http-status";
 import { toast } from "sonner";
@@ -21,13 +24,36 @@ export const useGetAllProducts = (params?: IQueryParam[]) => {
 };
 
 export const getAllProductsForFeedQuery = (params?: IQueryParam[]) => ({
-  queryKey: ["PRODUCTS", "FEED", params],
+  queryKey: ["PRODUCTS", params],
   queryFn: async () => await getAllProductsForFeed(params),
 });
 
 export const useGetAllProductsForFeed = (params?: IQueryParam[]) => {
   return useQuery({
     ...getAllProductsForFeedQuery(params),
+  });
+};
+
+export const getProductByIdQuery = (id: string) => ({
+  queryKey: ["PRODUCT", id],
+  queryFn: async () => await getProductById(id),
+});
+
+export const useGetProductById = (id: string) => {
+  return useQuery({
+    ...getProductByIdQuery(id),
+  });
+};
+
+export const useCreateProduct = () => {
+  return useMutation<any, Error, FormData>({
+    mutationFn: createProduct,
+  });
+};
+
+export const useUpdateProduct = () => {
+  return useMutation<any, Error, IUpdateProduct>({
+    mutationFn: updateProduct,
   });
 };
 

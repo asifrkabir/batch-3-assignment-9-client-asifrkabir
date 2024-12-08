@@ -5,8 +5,8 @@ import AppForm from "@/components/form/AppForm";
 import AppInput from "@/components/form/AppInput";
 import AppTextarea from "@/components/form/AppTextarea";
 import { Button } from "@/components/ui/button";
-import { useCreateShop, useUpdateShop } from "@/hooks/shop.hook";
-import { createShopValidationSchema } from "@/schemas/shop.schema";
+import { useUpdateShop } from "@/hooks/shop.hook";
+import { updateShopValidationSchema } from "@/schemas/shop.schema";
 import { IApiResponse, IShop, IUpdateShop } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -113,7 +113,7 @@ export function UpdateShopForm({ closeModal, shop }: IProps) {
       <div className="grid gap-4 my-2">
         <AppForm
           onSubmit={handleSubmit}
-          resolver={zodResolver(createShopValidationSchema)}
+          resolver={zodResolver(updateShopValidationSchema)}
           defaultValues={existingShopValues}
         >
           <AppInput

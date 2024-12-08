@@ -6,4 +6,10 @@ export interface IInput {
   type?: string;
   disabled?: boolean;
   variant?: string;
+  step?: string;
+}
+
+export interface IDropdownOption {
+  label: string;
+  value: string;
 }

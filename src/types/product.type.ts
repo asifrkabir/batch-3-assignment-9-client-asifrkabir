@@ -17,3 +17,8 @@ export interface IProduct {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IUpdateProduct {
+  id: string;
+  formData: FormData;
+}
