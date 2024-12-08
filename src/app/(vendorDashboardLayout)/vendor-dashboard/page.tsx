@@ -1,9 +1,10 @@
-const page = () => {
+const VendorDashboardPage = () => {
   return (
-    <div className="">
-      <h1>This is page</h1>
+    <div>
+      <h1>Vendor Dashboard</h1>
+      <p>Welcome to your dashboard!</p>
     </div>
   );
 };
 
-export default page;
+export default VendorDashboardPage;

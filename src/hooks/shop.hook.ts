@@ -4,6 +4,7 @@ import {
   deleteShop,
   getAllShops,
   getShopById,
+  getShopByOwnerId,
   toggleShopBlacklistStatus,
   updateShop,
 } from "@/services/ShopService";
@@ -53,5 +54,17 @@ export const useDeleteShop = () => {
 export const useToggleShopBlacklistStatus = () => {
   return useMutation<any, Error, IToggleShopBlacklistStatus>({
     mutationFn: toggleShopBlacklistStatus,
+  });
+};
+
+export const getShopByOwnerIdQuery = () => ({
+  queryKey: ["SHOP_BY_OWNER"],
+  queryFn: async () => await getShopByOwnerId(),
+});
+
+export const useGetShopByOwnerId = () => {
+  return useQuery({
+    ...getShopByOwnerIdQuery(),
+    staleTime: 5 * 60 * 1000,
   });
 };

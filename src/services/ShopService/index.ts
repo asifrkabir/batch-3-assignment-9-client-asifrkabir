@@ -7,7 +7,7 @@ import {
   IQueryParam,
   IShop,
   IToggleShopBlacklistStatus,
-  IUpdateShop
+  IUpdateShop,
 } from "@/types";
 
 export const getAllShops = async (params?: IQueryParam[]) => {
@@ -159,6 +159,32 @@ export const toggleShopBlacklistStatus = async (
     const { data } = await axiosInstance.patch<IApiResponse<IShop>>(
       `/shops/blacklist/${postData.id}`,
       postData.payload
+    );
+
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      const responseData = error.response.data as IApiResponse<null>;
+      const statusCode = error.response.status;
+
+      console.error(`API Error (${statusCode}):`, responseData);
+
+      return {
+        ...responseData,
+        statusCode,
+      };
+    }
+
+    throw new Error(
+      error.message || "Something went wrong. Please try again later."
+    );
+  }
+};
+
+export const getShopByOwnerId = async () => {
+  try {
+    const { data } = await axiosInstance.get<IApiResponse<IShop>>(
+      `/shops/by-owner`
     );
 
     return data;

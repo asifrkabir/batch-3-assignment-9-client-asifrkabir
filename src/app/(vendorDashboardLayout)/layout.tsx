@@ -1,5 +1,6 @@
 import DashboardNavbar from "@/components/Shared/DashboardNavbar/DashboardNavbar";
 import VendorDashboardSidebar from "@/components/Shared/DashboardSidebar/Vendor/VendorDashboardSidebar";
+import ShopChecker from "@/components/shop/ShopChecker";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function VendorDashboardLayout({
@@ -13,7 +14,9 @@ export default function VendorDashboardLayout({
         <VendorDashboardSidebar />
         <main className="w-full">
           <DashboardNavbar />
-          <div className="p-4 lg:p-6">{children}</div>
+          <div className="p-4 lg:p-6">
+            <ShopChecker>{children}</ShopChecker>
+          </div>
         </main>
       </SidebarProvider>
     </div>
