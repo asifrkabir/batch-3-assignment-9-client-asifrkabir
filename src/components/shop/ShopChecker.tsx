@@ -1,5 +1,6 @@
 "use client";
 
+import { ShopProvider } from "@/context/shop.provider";
 import { useGetShopByOwnerId } from "@/hooks/shop.hook";
 import LoadingSpinner from "../Shared/LoadingSpinner/LoadingSpinner";
 import { AddShopModal } from "./AddShop/AddShopModal";
@@ -28,7 +29,9 @@ const ShopChecker = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  return <>{children}</>;
+  return (
+    <ShopProvider value={{ shop, isLoading, isError }}>{children}</ShopProvider>
+  );
 };
 
 export default ShopChecker;
