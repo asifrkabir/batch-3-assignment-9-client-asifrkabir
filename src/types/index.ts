@@ -4,6 +4,7 @@ export * from "./order.type";
 export * from "./payment.type";
 export * from "./product.type";
 export * from "./productCategory.type";
+export * from "./review.type";
 export * from "./shop.type";
 export * from "./ui.type";
 export * from "./user.type";
