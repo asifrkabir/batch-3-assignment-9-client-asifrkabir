@@ -30,6 +30,10 @@ const DeleteShopForm = ({ id, closeModal }: IProps) => {
             queryKey: ["SHOPS"],
           });
 
+          queryClient.invalidateQueries({
+            queryKey: ["SHOP_BY_OWNER"],
+          });
+
           closeModal();
         } else {
           console.error(res);

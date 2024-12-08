@@ -12,12 +12,14 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useState } from "react";
 import DeleteShopDropdownItem from "./DeleteShopDropdownItem";
 import DeleteShopForm from "./DeleteShopForm";
+import { Button } from "@/components/ui/button";
 
 interface IProps {
   id: string;
+  renderType?: "button" | "dropdown";
 }
 
-export function DeleteShopModal({ id }: IProps) {
+export function DeleteShopModal({ id, renderType }: IProps) {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -27,7 +29,11 @@ export function DeleteShopModal({ id }: IProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <DeleteShopDropdownItem />
+        {renderType && renderType === "button" ? (
+          <Button className="bg-red-500 hover:bg-red-700">Delete Shop</Button>
+        ) : (
+          <DeleteShopDropdownItem />
+        )}
       </DialogTrigger>
       <DialogContent className={"lg:max-w-screen-lg"}>
         <DialogHeader>

@@ -1,5 +1,6 @@
 "use client";
 
+import { DeleteShopModal } from "@/app/(adminDashboardLayout)/admin-dashboard/shops/components/DeleteShop/DeleteShopModal";
 import {
   Card,
   CardContent,
@@ -43,8 +44,9 @@ const Shop = () => {
         )}
       </CardHeader>
 
-      <CardContent className="flex justify-center">
+      <CardContent className="flex justify-center gap-2">
         <UpdateShopModal shop={shop!} />
+        <DeleteShopModal id={shop._id} renderType={"button"} />
       </CardContent>
     </Card>
   );
