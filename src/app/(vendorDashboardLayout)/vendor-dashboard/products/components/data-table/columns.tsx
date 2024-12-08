@@ -10,6 +10,7 @@ import { DropdownMenuSeparator } from "@radix-ui/react-dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreVertical } from "lucide-react";
 import DeleteProductDropdownItem from "../DeleteProduct/DeleteProductDropdownItem";
+import { DuplicateProductModal } from "../DuplicateProduct/DuplicateProductModal";
 import { UpdateProductModal } from "../UpdateProduct/UpdateProductModal";
 
 export const columns: ColumnDef<IProduct>[] = [
@@ -145,6 +146,7 @@ export const columns: ColumnDef<IProduct>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <UpdateProductModal id={product._id} />
+            <DuplicateProductModal id={product._id} />
             <DropdownMenuSeparator />
             <DeleteProductDropdownItem id={product._id as string} />
           </DropdownMenuContent>
