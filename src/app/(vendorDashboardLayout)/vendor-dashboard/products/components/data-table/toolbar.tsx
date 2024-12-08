@@ -4,7 +4,6 @@ import { Table } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TrashIcon } from "lucide-react";
-import { DataTableFacetedFilter } from "@/components/Shared/DataTable/data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -31,18 +30,6 @@ export function ProductDataTableToolbar<TData>({
             className="h-8 w-[150px] lg:w-[250px]"
           />
         ))}
-
-        {table.getColumn("role") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("role")}
-            title="Role"
-            options={[
-              { label: "Admin", value: "admin" },
-              { label: "Vendor", value: "vendor" },
-              { label: "User", value: "user" },
-            ]}
-          />
-        )}
 
         {isFiltered && (
           <Button

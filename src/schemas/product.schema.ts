@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 const requiredString = z.string().trim().min(1, "Required");
-const optionalString = z.string().trim().optional();
 
 export const createProductValidationSchema = z.object({
   name: requiredString,
@@ -14,7 +13,6 @@ export const createProductValidationSchema = z.object({
     .number()
     .min(0, { message: "Discounted Price must be at least $0" })
     .optional(),
-  shop: z.string().min(1),
 });
 
 export const updateProductValidationSchema = z.object({

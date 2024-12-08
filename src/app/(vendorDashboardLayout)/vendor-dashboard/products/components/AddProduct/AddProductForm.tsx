@@ -6,65 +6,41 @@ import AppInput from "@/components/form/AppInput";
 import AppSelect from "@/components/form/AppSelect";
 import AppTextarea from "@/components/form/AppTextarea";
 import { Button } from "@/components/ui/button";
-import { useGetProductById, useUpdateProduct } from "@/hooks/product.hook";
+import { useShop } from "@/context/shop.provider";
+import { useCreateProduct } from "@/hooks/product.hook";
 import { useGetAllProductCategories } from "@/hooks/productCategory.hook";
-import { updateProductValidationSchema } from "@/schemas/product.schema";
-import {
-  IApiResponse,
-  IDropdownOption,
-  IProduct,
-  IUpdateProduct,
-} from "@/types";
+import { createProductValidationSchema } from "@/schemas/product.schema";
+import { IApiResponse, IDropdownOption, IProduct } from "@/types";
 import { extractDropdownOptions } from "@/utils/extractDropdownOptions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import httpStatus from "http-status";
 import { Loader2, Trash2 } from "lucide-react";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
 interface IProps {
   closeModal: () => void;
-  id: string;
 }
 
-export function UpdateProductForm({ closeModal, id }: IProps) {
-  const { data: productData, isLoading, isError } = useGetProductById(id);
+export function AddProductForm({ closeModal }: IProps) {
+  const { shop } = useShop();
   const { data: productCategoriesData } = useGetAllProductCategories([
     { name: "limit", value: 10000 },
   ]);
 
-  const [existingImageUrls, setExistingImageUrls] = useState<string[]>([]);
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
-  const { mutate: updateProduct, isPending } = useUpdateProduct();
+  const { mutate: createProduct, isPending } = useCreateProduct();
   const queryClient = useQueryClient();
 
-  const product = productData?.data as IProduct;
   const productCategories: IDropdownOption[] = extractDropdownOptions(
     productCategoriesData?.data || [],
     "name",
     "_id"
   );
-
-  const existingProductValues: Partial<IProduct> = {
-    name: product?.name,
-    description: product?.description,
-    price: product?.price,
-    category: product?.category,
-    inventoryCount: product?.inventoryCount,
-    onSale: product?.onSale,
-    discountedPrice: product?.discountedPrice,
-  };
-
-  useEffect(() => {
-    if (product?.imageUrls) {
-      setExistingImageUrls(product.imageUrls);
-      setImagePreviews(product.imageUrls);
-    }
-  }, [product]);
 
   const handleImageAdd = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -86,39 +62,28 @@ export function UpdateProductForm({ closeModal, id }: IProps) {
   };
 
   const handleImageDelete = (index: number) => {
-    if (index < existingImageUrls.length) {
-      setExistingImageUrls((prev) => prev.filter((_, i) => i !== index));
-      setImagePreviews((prev) => prev.filter((_, i) => i !== index));
-    } else {
-      const newIndex = index - existingImageUrls.length;
-      setImageFiles((prev) => prev.filter((_, i) => i !== newIndex));
-      setImagePreviews((prev) => prev.filter((_, i) => i !== index));
-    }
+    setImageFiles((prev) => prev.filter((_, i) => i !== index));
+    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
     const formData = new FormData();
 
-    const productData = {
+    const postData = {
       ...data,
-      imageUrls: existingImageUrls,
+      shop: shop._id,
     };
 
-    formData.append("data", JSON.stringify(productData));
+    formData.append("data", JSON.stringify(postData));
 
     for (const image of imageFiles) {
       formData.append("productImages", image);
     }
 
-    const payload: IUpdateProduct = {
-      id: product?._id,
-      formData,
-    };
-
-    updateProduct(payload, {
+    createProduct(formData, {
       onSuccess: (res: IApiResponse<IProduct>) => {
-        if (res.statusCode === httpStatus.OK) {
-          toast.success("Product updated successfully");
+        if (res.statusCode === httpStatus.CREATED) {
+          toast.success("Product created successfully");
 
           queryClient.invalidateQueries({ queryKey: ["PRODUCTS"] });
 
@@ -126,34 +91,25 @@ export function UpdateProductForm({ closeModal, id }: IProps) {
         } else {
           console.error(res);
           toast.error(
-            res.message || "Failed to update product. Please try again."
+            res.message || "Failed to create product. Please try again."
           );
         }
       },
       onError: (error) => {
         console.error(error);
         toast.error(
-          error.message || "Failed to update product. Please try again."
+          error.message || "Failed to create product. Please try again."
         );
       },
     });
   };
-
-  if (isLoading) {
-    return <Loader2 className="size-5 animate-spin" />;
-  }
-
-  if (isError) {
-    return <p>Something went wrong while fetching product</p>;
-  }
 
   return (
     <>
       <div className="grid gap-4 my-2">
         <AppForm
           onSubmit={handleSubmit}
-          resolver={zodResolver(updateProductValidationSchema)}
-          defaultValues={existingProductValues}
+          resolver={zodResolver(createProductValidationSchema)}
         >
           <AppInput
             name="name"
@@ -254,7 +210,7 @@ export function UpdateProductForm({ closeModal, id }: IProps) {
             {isPending ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : (
-              "Update"
+              "Submit"
             )}
           </Button>
         </AppForm>

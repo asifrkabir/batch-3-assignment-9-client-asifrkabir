@@ -10,9 +10,7 @@ import { useShop } from "@/context/shop.provider";
 
 const Products = () => {
   const { shop } = useShop();
-  const [params, setParams] = useState<IQueryParam[]>([
-    { name: "shop", value: shop._id },
-  ]);
+  const [params] = useState<IQueryParam[]>([{ name: "shop", value: shop._id }]);
 
   const { data, isLoading, isError } = useGetAllProducts(params);
 
