@@ -59,7 +59,7 @@ const ProductCard = ({ product }: IProps) => {
             {inventoryCount <= 0 ? (
               <Badge className="bg-gray-400 text-white">Out of Stock</Badge>
             ) : (
-              <Badge className="bg-green-500 text-white">In Stock</Badge>
+              <Badge className="bg-emerald-500 text-white">In Stock</Badge>
             )}
           </div>
         </div>
