@@ -1,0 +1,106 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { IProduct } from "@/types";
+import Image from "next/image";
+
+interface IProps {
+  product: IProduct;
+}
+
+const ProductDetails = ({ product }: IProps) => {
+  const {
+    name,
+    description,
+    price,
+    discountedPrice,
+    category,
+    inventoryCount,
+    imageUrls,
+    onSale,
+    isActive,
+  } = product;
+
+  const placeholderCount = 1;
+
+  return (
+    <div className="p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Image Gallery */}
+        <div className="flex flex-col items-center">
+          {imageUrls && imageUrls.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+              {imageUrls.map((imageUrl, index) => (
+                <div key={index} className="relative overflow-hidden">
+                  <Image
+                    src={imageUrl}
+                    alt={`Product image ${index + 1}`}
+                    width={300}
+                    height={150}
+                    className="object-cover rounded-md transition-all duration-300"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-4 mb-8">
+              {Array.from({ length: placeholderCount }).map((_, index) => (
+                <div key={index} className="relative overflow-hidden">
+                  <img
+                    src={`https://placehold.co/300x150/cccccc/ffffff?text=No+Image`}
+                    alt={`Placeholder image ${index + 1}`}
+                    width={300}
+                    height={150}
+                    className="object-cover rounded-md transition-all duration-300"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Product Details */}
+        <div className="flex flex-col">
+          <h1 className="text-3xl font-semibold">{name}</h1>
+          <h3 className="text-lg text-gray-600 mb-4">{category.name}</h3>
+
+          {description && (
+            <p className="text-sm text-gray-700 mb-4">
+              {description.length > 200
+                ? description.slice(0, 200) + "..."
+                : description}
+            </p>
+          )}
+
+          <div className="text-lg mb-4">
+            {onSale ? (
+              <div className="text-emerald-600">
+                <span className="line-through">${price}</span>{" "}
+                <span className="font-semibold">${discountedPrice}</span>
+              </div>
+            ) : (
+              <div className="font-semibold">${price}</div>
+            )}
+          </div>
+
+          <div className="mb-6">
+            {inventoryCount <= 0 ? (
+              <span className="text-red-500 font-semibold">Out of Stock</span>
+            ) : (
+              <span className="text-emerald-500 font-semibold">In Stock</span>
+            )}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-4">
+            <Button size="lg" disabled={!isActive || inventoryCount <= 0}>
+              Add to Cart
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetails;

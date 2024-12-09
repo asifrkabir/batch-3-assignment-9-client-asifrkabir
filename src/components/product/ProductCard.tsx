@@ -84,7 +84,7 @@ const ProductCard = ({ product }: IProps) => {
                 <Image
                   src={imageUrl}
                   alt={`Product image ${index + 1}`}
-                  width={1920}
+                  width={300}
                   height={150}
                   className="object-cover transition duration-300 rounded-sm"
                 />
@@ -104,7 +104,7 @@ const ProductCard = ({ product }: IProps) => {
       {/* Footer - Action Buttons */}
       <CardFooter className="p-4 flex justify-between items-center">
         {isActive ? (
-          <Link href={`/product/${_id}`}>
+          <Link href={`/products/${_id}`}>
             <Button variant="outline" size="sm">
               <Eye className="mr-2" /> View Details
             </Button>
