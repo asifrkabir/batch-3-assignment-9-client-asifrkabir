@@ -8,7 +8,12 @@ import {
   updateProduct,
 } from "@/services/ProductService";
 import { IApiResponse, IProduct, IQueryParam, IUpdateProduct } from "@/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import httpStatus from "http-status";
 import { toast } from "sonner";
 
@@ -83,4 +88,25 @@ export const useDeleteProduct = () => {
       );
     },
   });
+};
+
+export const getAllProductsForFeedInfiniteQuery = (
+  params: IQueryParam[] = []
+) => ({
+  queryKey: ["PRODUCTS_FEED", params],
+  queryFn: async ({ pageParam = 1 }) => {
+    const paginationParams = [...params, { name: "page", value: pageParam }];
+    return await getAllProductsForFeed(paginationParams);
+  },
+  getNextPageParam: (lastPage: IApiResponse<IProduct[]>) => {
+    if (lastPage.meta!.page < lastPage.meta!.totalPage) {
+      return lastPage.meta!.page + 1;
+    }
+    return undefined;
+  },
+  initialPageParam: 1,
+});
+
+export const useGetAllProductsForFeedInfinite = (params: IQueryParam[]) => {
+  return useInfiniteQuery({ ...getAllProductsForFeedInfiniteQuery(params) });
 };

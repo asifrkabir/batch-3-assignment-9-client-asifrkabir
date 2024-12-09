@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import httpStatus from "http-status";
 import { Loader2, Trash2 } from "lucide-react";
+import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
@@ -186,10 +187,12 @@ export function AddProductForm({ closeModal }: IProps) {
                     key={index}
                     className="relative size-32 border-2 border-dashed border-default-300 p-2 group"
                   >
-                    <img
+                    <Image
                       className="h-full w-full object-cover object-center"
                       src={imageDataUrl}
                       alt={`Preview ${index + 1}`}
+                      width={128}
+                      height={128}
                     />
 
                     <button

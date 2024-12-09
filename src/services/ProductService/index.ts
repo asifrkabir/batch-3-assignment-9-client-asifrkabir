@@ -57,7 +57,7 @@ export const getAllProductsForFeed = async (params?: IQueryParam[]) => {
     return data;
   } catch (error: any) {
     if (error.response) {
-      const responseData = error.response.data as IApiResponse<null>;
+      const responseData = error.response.data as IApiResponse<[]>;
       const statusCode = error.response.status;
 
       console.error(`API Error (${statusCode}):`, responseData);
