@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -84,7 +86,7 @@ const AllProductsFilter: React.FC<AllProductsFilterProps> = ({ setParams }) => {
     } else {
       setParams((prev) => prev.filter((param) => param.name !== "priceMin"));
     }
-  }, [priceMin, updateParams]);
+  }, [priceMin, setParams, updateParams]);
 
   useEffect(() => {
     if (priceMax !== undefined && priceMax !== "") {
@@ -92,7 +94,7 @@ const AllProductsFilter: React.FC<AllProductsFilterProps> = ({ setParams }) => {
     } else {
       setParams((prev) => prev.filter((param) => param.name !== "priceMax"));
     }
-  }, [priceMax, updateParams]);
+  }, [priceMax, setParams, updateParams]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
