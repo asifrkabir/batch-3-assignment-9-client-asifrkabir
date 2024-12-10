@@ -1,3 +1,4 @@
+import { IProduct } from "./product.type";
 import { IShop } from "./shop.type";
 import { IUser } from "./user.type";
 
@@ -13,16 +14,22 @@ export interface IOrder {
 }
 
 export interface IOrderProduct {
-  product: string;
+  product: IProduct;
   price: number;
   quantity: number;
 }
 
 export interface ICreateOrder {
   shop: string;
-  products: IOrderProduct[];
+  products: ICreateOrderProduct[];
   totalPrice: number;
   discount?: number;
   deliveryAddress: string;
   status: string;
+}
+
+export interface ICreateOrderProduct {
+  product: string;
+  price: number;
+  quantity: number;
 }
