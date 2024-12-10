@@ -8,10 +8,15 @@ import AllProductsFilter from "./AllProductsFilter";
 import ProductCard from "./ProductCard";
 import ProductCardLoadingSkeleton from "./ProductCardLoadingSkeleton";
 
-const Products = () => {
-  const [params, setParams] = useState<IQueryParam[]>([
-    { name: "limit", value: 9 },
-  ]);
+interface IProps {
+  customParams?: IQueryParam[];
+}
+
+const Products = ({ customParams }: IProps) => {
+  const [params, setParams] = useState<IQueryParam[]>(() => {
+    const defaultParams = [{ name: "limit", value: 9 }];
+    return customParams ? [...defaultParams, ...customParams] : defaultParams;
+  });
 
   const {
     data,

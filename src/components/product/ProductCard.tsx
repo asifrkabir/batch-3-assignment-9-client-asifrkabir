@@ -19,7 +19,7 @@ interface IProps {
 }
 
 const ProductCard = ({ product }: IProps) => {
-  const maxContentLength = 200;
+  const maxContentLength = 100;
   const maxImagesToShow = 2;
 
   const {
@@ -32,6 +32,7 @@ const ProductCard = ({ product }: IProps) => {
     inventoryCount,
     imageUrls,
     onSale,
+    shop,
   } = product;
 
   return (
@@ -39,13 +40,24 @@ const ProductCard = ({ product }: IProps) => {
       <CardHeader className="flex flex-col p-4">
         <div className="mt-2 flex justify-between">
           <div>
-            <h2 className="text-xl font-bold">{name}</h2>
-            <h3 className="text-md mb-4">{category.name}</h3>
+            <Link
+              href={`/products/${product._id}`}
+              className="hover:text-emerald-500"
+            >
+              <h2 className="text-xl font-bold">{name}</h2>
+            </Link>
+            <Link
+              href={`/shops/${shop._id}`}
+              className="hover:text-emerald-500"
+            >
+              <h3 className="text-md mb-4">{shop.name}</h3>
+            </Link>
+            <h3 className="text-md mb-4">Category: {category.name}</h3>
             {description && (
               <p className="text-sm text-muted-foreground">
                 {description.slice(0, maxContentLength)}
                 {description.length > maxContentLength && (
-                  <Link href={`/product/${product._id}`}>
+                  <Link href={`/products/${product._id}`}>
                     <span className="text-emerald-600 cursor-pointer hover:underline">
                       ...Read more
                     </span>
@@ -58,7 +70,9 @@ const ProductCard = ({ product }: IProps) => {
             {inventoryCount <= 0 ? (
               <Badge className="bg-gray-400 text-white">Out of Stock</Badge>
             ) : (
-              <Badge className="bg-emerald-500 text-white">In Stock</Badge>
+              <Badge className="bg-emerald-500 text-white text-center">
+                In Stock
+              </Badge>
             )}
           </div>
         </div>

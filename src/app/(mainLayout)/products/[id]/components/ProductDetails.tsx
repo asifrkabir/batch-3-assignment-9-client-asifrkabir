@@ -3,6 +3,7 @@
 import AddToCart from "@/components/cart/AddToCart";
 import { IProduct } from "@/types";
 import Image from "next/image";
+import Link from "next/link";
 
 interface IProps {
   product: IProduct;
@@ -18,6 +19,7 @@ const ProductDetails = ({ product }: IProps) => {
     inventoryCount,
     imageUrls,
     onSale,
+    shop,
   } = product;
 
   const placeholderCount = 1;
@@ -59,14 +61,16 @@ const ProductDetails = ({ product }: IProps) => {
 
         <div className="flex flex-col">
           <h1 className="text-3xl font-semibold">{name}</h1>
-          <h3 className="text-lg text-gray-600 mb-4">{category.name}</h3>
+          <Link
+              href={`/shops/${shop._id}`}
+              className="hover:text-emerald-500"
+            >
+              <h3 className="text-md mb-4">{shop.name}</h3>
+            </Link>
+          <h3 className="text-md mb-4">Category: {category.name}</h3>
 
           {description && (
-            <p className="text-sm text-gray-700 mb-4">
-              {description.length > 200
-                ? description.slice(0, 200) + "..."
-                : description}
-            </p>
+            <p className="text-sm text-gray-700 mb-4">{description}</p>
           )}
 
           <div className="text-lg mb-4">

@@ -1,20 +1,34 @@
 "use client";
 
-import { DeleteShopModal } from "@/app/(adminDashboardLayout)/admin-dashboard/shops/components/DeleteShop/DeleteShopModal";
+import LoadingSpinner from "@/components/Shared/LoadingSpinner/LoadingSpinner";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
 } from "@/components/ui/card";
-import { useShop } from "@/context/shop.provider";
+import { useGetShopById } from "@/hooks/shop.hook";
 import { Store } from "lucide-react";
 import Image from "next/image";
-import { UpdateShopModal } from "./UpdateShop/UpdateShopModal";
+import FollowShopToggle from "./FollowShopToggle";
 
-const Shop = () => {
-  const { shop } = useShop();
+interface IProps {
+  id: string;
+}
+
+const Shop = ({ id }: IProps) => {
+  const { data, isLoading, isError } = useGetShopById(id);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (isError || !data?.data) {
+    return <p>Something went wrong while fetching shop</p>;
+  }
+
+  const shop = data.data;
 
   return (
     <Card className="w-full">
@@ -46,8 +60,7 @@ const Shop = () => {
 
       <CardContent className="flex flex-col justify-center items-center gap-2">
         <h4>Followers: {shop.followerCount}</h4>
-        <UpdateShopModal shop={shop!} />
-        <DeleteShopModal id={shop._id} renderType={"button"} />
+        <FollowShopToggle />
       </CardContent>
     </Card>
   );
