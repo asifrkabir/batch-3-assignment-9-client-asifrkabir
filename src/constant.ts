@@ -3,6 +3,7 @@ export const protectedRoutes = [
   "/admin-dashboard/:page*",
   "/vendor-dashboard",
   "/vendor-dashboard/:page*",
+  "/checkout",
   "/login",
   "/register",
 ];

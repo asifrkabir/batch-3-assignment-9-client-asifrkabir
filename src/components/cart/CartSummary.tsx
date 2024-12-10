@@ -1,11 +1,17 @@
 "use client";
 
-import { Separator } from "@/components/ui/separator";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"; // ShadCN Table
 import { useCart } from "@/context/cart.provider";
 import { Minus, MoveRight, Plus, Trash } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import Link from "next/link";
 
 interface IProps {
   closeModal: () => void;
@@ -44,61 +50,71 @@ const CartSummary = ({ closeModal }: IProps) => {
         <>
           <h3 className="text-lg mb-4">Shop: {cart.shopName}</h3>
           <div className="border rounded-md shadow-sm overflow-hidden">
-            <div className="grid grid-cols-5 bg-gray-100 p-2 text-sm font-medium">
-              <div className="col-span-2">Product</div>
-              <div>Quantity</div>
-              <div>Price</div>
-              <div className="text-center">Actions</div>
+            <div className="overflow-x-auto">
+              <Table className="min-w-full">
+                <TableHeader>
+                  <TableRow>
+                    <TableCell className="col-span-2">Product</TableCell>
+                    <TableCell>Quantity</TableCell>
+                    <TableCell>Price</TableCell>
+                    <TableCell className="text-center">Actions</TableCell>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {cart.products.map((product) => (
+                    <TableRow key={product.productId}>
+                      <TableCell className="col-span-2">
+                        <p className="font-medium">{product.name}</p>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-2">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() =>
+                              handleDecrement(
+                                product.productId,
+                                product.quantity
+                              )
+                            }
+                            disabled={loading}
+                          >
+                            <Minus className="w-4 h-4" />
+                          </Button>
+                          <span className="text-sm">{product.quantity}</span>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() =>
+                              handleIncrement(
+                                product.productId,
+                                product.quantity
+                              )
+                            }
+                            disabled={loading}
+                          >
+                            <Plus className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        ${(product.price * product.quantity).toFixed(2)}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <Button
+                          className="bg-red-500 hover:bg-red-700 text-white"
+                          size="icon"
+                          onClick={() => handleRemove(product.productId)}
+                          disabled={loading}
+                        >
+                          <Trash className="w-4 h-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
-            <Separator />
-
-            {cart.products.map((product) => (
-              <div
-                key={product.productId}
-                className="grid grid-cols-5 items-center p-2 text-sm border-t"
-              >
-                <div className="col-span-2">
-                  <p className="font-medium">{product.name}</p>
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() =>
-                      handleDecrement(product.productId, product.quantity)
-                    }
-                    disabled={loading}
-                  >
-                    <Minus className="w-4 h-4" />
-                  </Button>
-                  <span className="text-sm">{product.quantity}</span>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() =>
-                      handleIncrement(product.productId, product.quantity)
-                    }
-                    disabled={loading}
-                  >
-                    <Plus className="w-4 h-4" />
-                  </Button>
-                </div>
-
-                <div>${(product.price * product.quantity).toFixed(2)}</div>
-
-                <div className="text-center">
-                  <Button
-                    className="bg-red-500 hover:bg-red-700 text-white"
-                    size="icon"
-                    onClick={() => handleRemove(product.productId)}
-                    disabled={loading}
-                  >
-                    <Trash className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-            ))}
 
             <div className="flex justify-between items-center p-4 border-t">
               <h3 className="text-lg font-semibold">Total:</h3>

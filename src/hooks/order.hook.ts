@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getAllOrders, getOrderById } from "@/services/OrderService";
-import { IQueryParam } from "@/types";
-import { useQuery } from "@tanstack/react-query";
+import {
+  createOrder,
+  getAllOrders,
+  getOrderById,
+} from "@/services/OrderService";
+import { ICreateOrder, IQueryParam } from "@/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const getOrderByIdQuery = (id: string) => ({
   queryKey: ["ORDER", id],
@@ -22,5 +26,11 @@ export const getAllOrdersQuery = (params?: IQueryParam[]) => ({
 export const useGetAllOrders = (params?: IQueryParam[]) => {
   return useQuery({
     ...getAllOrdersQuery(params),
+  });
+};
+
+export const useCreateOrder = () => {
+  return useMutation<any, Error, ICreateOrder>({
+    mutationFn: createOrder,
   });
 };

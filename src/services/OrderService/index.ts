@@ -2,7 +2,7 @@
 "use server";
 
 import axiosInstance from "@/lib/AxiosInstance";
-import { IApiResponse, IOrder, IQueryParam } from "@/types";
+import { IApiResponse, ICreateOrder, IOrder, IQueryParam } from "@/types";
 
 export const getOrderById = async (id: string) => {
   try {
@@ -43,6 +43,33 @@ export const getAllOrders = async (params?: IQueryParam[]) => {
     const { data } = await axiosInstance.get<IApiResponse<IOrder[]>>(
       "/orders",
       { params: queryParams }
+    );
+
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      const responseData = error.response.data as IApiResponse<null>;
+      const statusCode = error.response.status;
+
+      console.error(`API Error (${statusCode}):`, responseData);
+
+      return {
+        ...responseData,
+        statusCode,
+      };
+    }
+
+    throw new Error(
+      error.message || "Something went wrong. Please try again later."
+    );
+  }
+};
+
+export const createOrder = async (orderData: ICreateOrder) => {
+  try {
+    const { data } = await axiosInstance.post<IApiResponse<IOrder>>(
+      "/orders",
+      orderData
     );
 
     return data;

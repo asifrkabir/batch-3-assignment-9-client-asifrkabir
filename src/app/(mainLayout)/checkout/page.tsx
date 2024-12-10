@@ -1,7 +1,21 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import CheckoutForm from "./components/CheckoutForm";
+
 const CheckoutPage = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
-    <div>
-      <h1>This is CheckoutPage</h1>
+    <div className="h-full flex-1 flex-col space-y-2 p-8 md:flex">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-lg font-semibold md:text-2xl">Checkout</h1>
+      </div>
+      {isClient && <CheckoutForm />}
     </div>
   );
 };
