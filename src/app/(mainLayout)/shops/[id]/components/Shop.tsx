@@ -2,16 +2,17 @@
 
 import LoadingSpinner from "@/components/Shared/LoadingSpinner/LoadingSpinner";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { useGetShopById } from "@/hooks/shop.hook";
 import { Store } from "lucide-react";
 import Image from "next/image";
 import FollowShopToggle from "./FollowShopToggle";
+import { useUser } from "@/context/user.provider";
 
 interface IProps {
   id: string;
@@ -19,6 +20,7 @@ interface IProps {
 
 const Shop = ({ id }: IProps) => {
   const { data, isLoading, isError } = useGetShopById(id);
+  const { user } = useUser();
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -60,7 +62,7 @@ const Shop = ({ id }: IProps) => {
 
       <CardContent className="flex flex-col justify-center items-center gap-2">
         <h4>Followers: {shop.followerCount}</h4>
-        <FollowShopToggle />
+        {user && <FollowShopToggle shopId={id} />}
       </CardContent>
     </Card>
   );

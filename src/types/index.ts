@@ -1,4 +1,5 @@
 export * from "./api.type";
+export * from "./follow.type";
 export * from "./input.type";
 export * from "./order.type";
 export * from "./payment.type";
