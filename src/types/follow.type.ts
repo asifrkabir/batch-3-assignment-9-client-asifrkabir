@@ -13,4 +13,4 @@ export interface ICreateFollow {
   shop: string;
 }
 
-export interface ICreateUnfollow extends ICreateFollow {}
+export type ICreateUnfollow = ICreateFollow;

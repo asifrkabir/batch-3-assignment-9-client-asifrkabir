@@ -5,11 +5,8 @@ import axiosInstance from "@/lib/AxiosInstance";
 import {
   IApiResponse,
   ICreateFollow,
-  IFollow,
-  IProduct,
-  IQueryParam,
   ICreateUnfollow,
-  IUpdateProduct,
+  IFollow
 } from "@/types";
 
 export const checkIfUserFollowsShop = async (shopId: string) => {

@@ -44,7 +44,8 @@ export const columns: ColumnDef<IPayment>[] = [
       <DataTableColumnHeader column={column} title="Order ID" />
     ),
     cell: ({ row }) => {
-      const orderId = row.original.order._id || "Unknown";
+      console.log(row.original);
+      const orderId = row.original?.order?._id || "Unknown";
 
       return (
         <div className="flex space-x-2">
