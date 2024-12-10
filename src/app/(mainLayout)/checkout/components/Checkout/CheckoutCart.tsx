@@ -9,7 +9,13 @@ import {
 } from "@/components/ui/table";
 import { useCart } from "@/context/cart.provider";
 
-const CheckoutCart = () => {
+interface CheckoutCartProps {
+  subTotal: number;
+  discount: number;
+  total: number;
+}
+
+const CheckoutCart = ({ subTotal, discount, total }: CheckoutCartProps) => {
   const { cart } = useCart();
 
   return (
@@ -39,10 +45,24 @@ const CheckoutCart = () => {
         </Table>
       </div>
 
-      <div className="flex justify-between items-center p-4 border-t">
-        <h3 className="text-lg font-semibold">Total:</h3>
-        <div className="flex items-center space-x-4">
-          <p className="text-lg font-medium">${cart.totalPrice.toFixed(2)}</p>
+      <div className="p-4 border-t bg-gray-50">
+        <div className="space-y-2">
+          <div className="flex justify-between">
+            <p className="text-gray-500">Subtotal:</p>
+            <p className="font-medium">${subTotal.toFixed(2)}</p>
+          </div>
+
+          <div className="flex justify-between">
+            <p className="text-gray-500">Discount (from coupon):</p>
+            <p className="font-medium text-emerald-500">
+              -${discount.toFixed(2)}
+            </p>
+          </div>
+
+          <div className="flex justify-between border-t pt-2 mt-2">
+            <p className="text-lg font-semibold">Total:</p>
+            <p className="text-lg font-semibold">${total.toFixed(2)}</p>
+          </div>
         </div>
       </div>
     </div>

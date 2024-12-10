@@ -29,15 +29,15 @@ const PaymentSuccessPage = () => {
           </Button>
         </Link>
 
-        <Link href="/">
-          <Button className="bg-emerald-500 hover:bg-emerald-700 gap-2 text-white">
-            Go to Homepage <Home className="w-4 h-4" />
-          </Button>
-        </Link>
-
         <Link href={orderPageUrl}>
           <Button className="bg-emerald-500 hover:bg-emerald-700 gap-2 text-white">
             Leave a review <Star className="w-4 h-4" />
+          </Button>
+        </Link>
+
+        <Link href="/">
+          <Button className="bg-emerald-500 hover:bg-emerald-700 gap-2 text-white">
+            Go to Homepage <Home className="w-4 h-4" />
           </Button>
         </Link>
       </div>

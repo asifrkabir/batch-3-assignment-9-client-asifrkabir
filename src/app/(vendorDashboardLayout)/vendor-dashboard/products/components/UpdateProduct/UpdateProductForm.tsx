@@ -13,6 +13,7 @@ import {
   IApiResponse,
   IDropdownOption,
   IProduct,
+  IProductCategory,
   IUpdateProduct,
 } from "@/types";
 import { extractDropdownOptions } from "@/utils/extractDropdownOptions";
@@ -50,11 +51,13 @@ export function UpdateProductForm({ closeModal, id }: IProps) {
     "_id"
   );
 
-  const existingProductValues: Partial<IProduct> = {
+  const existingProductValues: Partial<Omit<IProduct, "category">> & {
+    category?: string;
+  } = {
     name: product?.name,
     description: product?.description,
     price: product?.price,
-    category: product?.category,
+    category: product?.category?._id,
     inventoryCount: product?.inventoryCount,
     onSale: product?.onSale,
     discountedPrice: product?.discountedPrice,

@@ -1,26 +1,34 @@
 "use client";
 
 import AppForm from "@/components/form/AppForm";
-import AppInput from "@/components/form/AppInput";
 import AppTextarea from "@/components/form/AppTextarea";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import envConfig from "@/config/envConfig";
 import { useCart } from "@/context/cart.provider";
 import { useCreateOrder } from "@/hooks/order.hook";
 import { createOrderValidationSchema } from "@/schemas/order.schema";
+import { IApiResponse, ICreateOrder, IOrder } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useQueryClient } from "@tanstack/react-query";
+import httpStatus from "http-status";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 import PaymentModal from "../Payment/PaymentModal";
 import CheckoutCart from "./CheckoutCart";
-import { IApiResponse, ICreateOrder, IOrder } from "@/types";
-import httpStatus from "http-status";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 const stripePromise = loadStripe(envConfig.stripePublishableKey as string);
 
@@ -30,13 +38,37 @@ const CheckoutForm = () => {
   const { cart, clearCart } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderId, setOrderId] = useState("");
+  const [couponCode, setCouponCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
   const router = useRouter();
+  const COUPON_CODE = "WINTER10";
+
+  const subTotal = cart.totalPrice;
+  const totalPrice = Math.round((subTotal - discount) * 100) / 100;
 
   const onPaymentSuccess = () => {
     setIsModalOpen(false);
     clearCart();
     const successPageUrl = `/payment-success?orderId=${orderId}`;
     router.push(successPageUrl);
+  };
+
+  const handleCouponValidation = () => {
+    if (couponCode.trim().toUpperCase() === COUPON_CODE) {
+      const discountAmount = Math.round(subTotal * 0.1 * 100) / 100;
+      setDiscount(discountAmount);
+      setDialogMessage(
+        `Coupon applied! You received a $${discountAmount} discount.`
+      );
+    } else {
+      setDiscount(0);
+      setDialogMessage("Invalid coupon code");
+      setCouponCode("");
+    }
+
+    setIsDialogOpen(true);
   };
 
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -47,8 +79,8 @@ const CheckoutForm = () => {
         price: cartProduct.price,
         quantity: cartProduct.quantity,
       })),
-      totalPrice: Math.round(cart.totalPrice * 100) / 100,
-      discount: data?.discount,
+      totalPrice: totalPrice,
+      discount: discount,
       deliveryAddress: data.deliveryAddress,
       status: "pending",
     };
@@ -78,7 +110,11 @@ const CheckoutForm = () => {
     <>
       {cart.products.length > 0 ? (
         <div>
-          <CheckoutCart />
+          <CheckoutCart
+            subTotal={subTotal}
+            discount={discount}
+            total={totalPrice}
+          />
 
           <div className="flex items-center justify-between mt-20 mb-8">
             <h1 className="text-lg font-semibold md:text-2xl">Checkout</h1>
@@ -96,14 +132,27 @@ const CheckoutForm = () => {
                 required
               />
 
-              <AppInput
-                name="couponCode"
-                label="Coupon Code"
-                type="text"
-                placeholder="Enter coupon code (if any)"
-              />
+              <div className="flex items-center gap-2 mb-4">
+                <Input
+                  name="couponCode"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  placeholder="Enter coupon code (if any)"
+                />
+                <Button
+                  type="button"
+                  onClick={handleCouponValidation}
+                  className="bg-blue-500 hover:bg-blue-700"
+                >
+                  Apply
+                </Button>
+              </div>
 
-              <Button type="submit" className="w-full" disabled={isPending}>
+              <Button
+                type="submit"
+                className="w-full bg-emerald-500 hover:bg-emerald-700"
+                disabled={isPending}
+              >
                 {isPending ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
@@ -117,6 +166,7 @@ const CheckoutForm = () => {
         <p className="text-center text-gray-500">Your cart is empty.</p>
       )}
 
+      {/* Payment Modal */}
       {orderId !== "" && (
         <Elements stripe={stripePromise}>
           <PaymentModal
@@ -126,11 +176,23 @@ const CheckoutForm = () => {
             paymentData={{
               order: orderId,
               shop: cart.shopId!,
-              amount: Math.round(cart.totalPrice * 100) / 100,
+              amount: totalPrice,
             }}
           />
         </Elements>
       )}
+
+      {/* Dialog for Coupon Validation */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{dialogMessage}</DialogTitle>
+            <VisuallyHidden>
+              <DialogDescription>{dialogMessage}</DialogDescription>
+            </VisuallyHidden>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
