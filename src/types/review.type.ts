@@ -13,3 +13,10 @@ export interface IReview {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ICreateReview {
+  product: string;
+  order: string;
+  rating: number;
+  comment?: string;
+}

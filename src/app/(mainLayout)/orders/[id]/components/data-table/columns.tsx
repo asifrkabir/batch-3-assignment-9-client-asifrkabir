@@ -1,6 +1,13 @@
 import { DataTableColumnHeader } from "@/components/Shared/DataTable/data-table-column-header";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { IOrderProduct } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
+import { MoreVertical } from "lucide-react";
+import { AddReviewModal } from "../AddReview/AddReviewModal";
 
 export const columns: ColumnDef<IOrderProduct>[] = [
   {
@@ -45,6 +52,27 @@ export const columns: ColumnDef<IOrderProduct>[] = [
         <div className="flex space-x-2">
           <span className="w-[150px]">{row.getValue("quantity")}</span>
         </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    id: "actions",
+    header: () => <span className="sr-only">Actions</span>,
+    cell: ({ row }) => {
+      const productId = row.original.product._id;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <MoreVertical className="h-5 w-5" />
+            <span className="sr-only">Actions</span>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <AddReviewModal productId={productId} />
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
     enableSorting: false,

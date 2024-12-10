@@ -35,7 +35,8 @@ const CheckoutForm = () => {
   const onPaymentSuccess = () => {
     setIsModalOpen(false);
     clearCart();
-    router.push("/payment-success");
+    const successPageUrl = `/payment-success?orderId=${orderId}`;
+    router.push(successPageUrl);
   };
 
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
