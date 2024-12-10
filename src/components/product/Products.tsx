@@ -7,14 +7,23 @@ import { useState } from "react";
 import AllProductsFilter from "./AllProductsFilter";
 import ProductCard from "./ProductCard";
 import ProductCardLoadingSkeleton from "./ProductCardLoadingSkeleton";
+import { useSearchParams } from "next/navigation";
 
 interface IProps {
   customParams?: IQueryParam[];
 }
 
 const Products = ({ customParams }: IProps) => {
+  const searchParams = useSearchParams();
+  const categoryId = searchParams.get("category");
+
   const [params, setParams] = useState<IQueryParam[]>(() => {
-    const defaultParams = [{ name: "limit", value: 9 }];
+    const defaultParams: IQueryParam[] = [{ name: "limit", value: 9 }];
+
+    if (categoryId) {
+      defaultParams.push({ name: "category", value: categoryId });
+    }
+
     return customParams ? [...defaultParams, ...customParams] : defaultParams;
   });
 

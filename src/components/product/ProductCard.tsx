@@ -126,7 +126,7 @@ const ProductCard = ({ product }: IProps) => {
         )}
       </CardContent>
 
-      <CardFooter className="p-4 flex justify-between items-center">
+      <CardFooter className="p-4 flex flex-wrap space-y-2 justify-between items-center">
         <Link href={`/products/${_id}`}>
           <Button variant="outline" size="sm">
             <Eye className="mr-2" /> View Details
