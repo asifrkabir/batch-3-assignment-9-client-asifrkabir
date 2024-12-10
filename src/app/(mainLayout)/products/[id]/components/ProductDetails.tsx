@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import AddToCart from "@/components/cart/AddToCart";
 import { IProduct } from "@/types";
 import Image from "next/image";
 
@@ -18,7 +18,6 @@ const ProductDetails = ({ product }: IProps) => {
     inventoryCount,
     imageUrls,
     onSale,
-    isActive,
   } = product;
 
   const placeholderCount = 1;
@@ -26,7 +25,6 @@ const ProductDetails = ({ product }: IProps) => {
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Image Gallery */}
         <div className="flex flex-col items-center">
           {imageUrls && imageUrls.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
@@ -59,7 +57,6 @@ const ProductDetails = ({ product }: IProps) => {
           )}
         </div>
 
-        {/* Product Details */}
         <div className="flex flex-col">
           <h1 className="text-3xl font-semibold">{name}</h1>
           <h3 className="text-lg text-gray-600 mb-4">{category.name}</h3>
@@ -91,11 +88,8 @@ const ProductDetails = ({ product }: IProps) => {
             )}
           </div>
 
-          {/* Action Buttons */}
           <div className="flex gap-4">
-            <Button size="lg" disabled={!isActive || inventoryCount <= 0}>
-              Add to Cart
-            </Button>
+            <AddToCart product={product} />
           </div>
         </div>
       </div>

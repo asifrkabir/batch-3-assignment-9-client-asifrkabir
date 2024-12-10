@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Eye } from "lucide-react";
 import { IProduct } from "@/types";
+import AddToCart from "../cart/AddToCart";
 
 interface IProps {
   product: IProduct;
@@ -31,12 +32,10 @@ const ProductCard = ({ product }: IProps) => {
     inventoryCount,
     imageUrls,
     onSale,
-    isActive,
   } = product;
 
   return (
     <Card className="relative flex flex-col rounded-lg border w-full h-auto transition-shadow hover:shadow-md">
-      {/* Header - Product Info */}
       <CardHeader className="flex flex-col p-4">
         <div className="mt-2 flex justify-between">
           <div>
@@ -76,8 +75,7 @@ const ProductCard = ({ product }: IProps) => {
       </CardHeader>
 
       <CardContent className="p-4">
-        {/* Image Grid */}
-        {imageUrls && imageUrls.length > 0 && (
+        {imageUrls && imageUrls.length > 0 ? (
           <div className="grid xs:grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-2 mb-8">
             {imageUrls.slice(0, maxImagesToShow).map((imageUrl, index) => (
               <div key={index} className="relative overflow-hidden">
@@ -88,7 +86,6 @@ const ProductCard = ({ product }: IProps) => {
                   height={150}
                   className="object-cover transition duration-300 rounded-sm"
                 />
-                {/* Overlay if more images */}
                 {index === maxImagesToShow - 1 &&
                   imageUrls!.length > maxImagesToShow && (
                     <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-lg font-bold">
@@ -98,22 +95,30 @@ const ProductCard = ({ product }: IProps) => {
               </div>
             ))}
           </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-2 mb-8">
+            {Array.from({ length: 1 }).map((_, index) => (
+              <div key={index} className="relative overflow-hidden">
+                <img
+                  src={`https://placehold.co/300x150/cccccc/ffffff?text=No+Image`}
+                  alt={`Placeholder image ${index + 1}`}
+                  width={300}
+                  height={150}
+                  className="object-cover rounded-md transition-all duration-300"
+                />
+              </div>
+            ))}
+          </div>
         )}
       </CardContent>
 
-      {/* Footer - Action Buttons */}
       <CardFooter className="p-4 flex justify-between items-center">
-        {isActive ? (
-          <Link href={`/products/${_id}`}>
-            <Button variant="outline" size="sm">
-              <Eye className="mr-2" /> View Details
-            </Button>
-          </Link>
-        ) : (
-          <Button variant="outline" size="sm" disabled>
-            Product Inactive
+        <Link href={`/products/${_id}`}>
+          <Button variant="outline" size="sm">
+            <Eye className="mr-2" /> View Details
           </Button>
-        )}
+        </Link>
+        <AddToCart product={product} />
       </CardFooter>
     </Card>
   );
