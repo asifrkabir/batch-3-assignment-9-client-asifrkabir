@@ -19,5 +19,6 @@ export interface IPayment {
 
 export interface ICreatePayment {
   order: string;
+  shop: string;
   amount: number;
 }

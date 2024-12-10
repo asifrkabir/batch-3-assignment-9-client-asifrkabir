@@ -7,9 +7,9 @@ const authRoutes = ["/login", "/register"];
 type Role = keyof typeof roleBasedRoutes;
 
 const roleBasedRoutes = {
-  user: [/^\/user/, "/checkout"],
-  admin: [/^\/admin/, "/checkout"],
-  vendor: [/^\/vendor/, "/checkout"],
+  user: [/^\/user/, "/checkout", "/payment"],
+  admin: [/^\/admin/, "/checkout", "/payment"],
+  vendor: [/^\/vendor/, "/checkout", "/payment"],
 };
 
 export async function middleware(request: NextRequest) {
@@ -46,6 +46,7 @@ export const config = {
     "/vendor-dashboard",
     "/vendor-dashboard/:page*",
     "/checkout",
+    "/payment",
     "/login",
     "/register",
   ],

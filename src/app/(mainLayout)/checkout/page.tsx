@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CheckoutForm from "./components/CheckoutForm";
+import CheckoutForm from "./components/Checkout/CheckoutForm";
 
 const CheckoutPage = () => {
   const [isClient, setIsClient] = useState(false);

@@ -1,25 +1,42 @@
 "use client";
 
-import { useCart } from "@/context/cart.provider";
-import CheckoutCart from "./CheckoutCart";
 import AppForm from "@/components/form/AppForm";
-import { zodResolver } from "@hookform/resolvers/zod";
 import AppInput from "@/components/form/AppInput";
+import AppTextarea from "@/components/form/AppTextarea";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { createOrderValidationSchema } from "@/schemas/order.schema";
-import { FieldValues, SubmitHandler } from "react-hook-form";
-import { IApiResponse, ICreateOrder, IOrder } from "@/types";
+import envConfig from "@/config/envConfig";
+import { useCart } from "@/context/cart.provider";
 import { useCreateOrder } from "@/hooks/order.hook";
+import { createOrderValidationSchema } from "@/schemas/order.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { useQueryClient } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import PaymentModal from "../Payment/PaymentModal";
+import CheckoutCart from "./CheckoutCart";
+import { IApiResponse, ICreateOrder, IOrder } from "@/types";
 import httpStatus from "http-status";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
-import AppTextarea from "@/components/form/AppTextarea";
+import { useRouter } from "next/navigation";
+
+const stripePromise = loadStripe(envConfig.stripePublishableKey as string);
 
 const CheckoutForm = () => {
   const { mutate: createOrder, isPending } = useCreateOrder();
   const queryClient = useQueryClient();
-  const { cart } = useCart();
+  const { cart, clearCart } = useCart();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [orderId, setOrderId] = useState("");
+  const router = useRouter();
+
+  const onPaymentSuccess = () => {
+    setIsModalOpen(false);
+    clearCart();
+    router.push("/payment-success");
+  };
 
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
     const orderData: ICreateOrder = {
@@ -41,6 +58,9 @@ const CheckoutForm = () => {
           queryClient.invalidateQueries({
             queryKey: ["ORDERS"],
           });
+
+          setOrderId(res.data!._id!);
+          setIsModalOpen(true);
         } else {
           console.error(res);
           toast.error(res.message || "Failed to add order. Please try again.");
@@ -86,7 +106,7 @@ const CheckoutForm = () => {
                 {isPending ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
-                  "Submit"
+                  "Proceed to Payment"
                 )}
               </Button>
             </AppForm>
@@ -94,6 +114,21 @@ const CheckoutForm = () => {
         </div>
       ) : (
         <p className="text-center text-gray-500">Your cart is empty.</p>
+      )}
+
+      {orderId !== "" && (
+        <Elements stripe={stripePromise}>
+          <PaymentModal
+            open={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            onPaymentSuccess={onPaymentSuccess}
+            paymentData={{
+              order: orderId,
+              shop: cart.shopId!,
+              amount: Math.round(cart.totalPrice * 100) / 100,
+            }}
+          />
+        </Elements>
       )}
     </>
   );
