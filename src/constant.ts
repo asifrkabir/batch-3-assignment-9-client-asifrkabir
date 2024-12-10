@@ -5,6 +5,7 @@ export const protectedRoutes = [
   "/vendor-dashboard/:page*",
   "/checkout",
   "/payment",
+  "/orders",
   "/login",
   "/register",
 ];

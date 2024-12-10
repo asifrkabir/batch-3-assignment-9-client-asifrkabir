@@ -11,6 +11,7 @@ export default function MainNavbar() {
       <nav className="flex items-center gap-3 lg:gap-4 ml-8 ">
         <Link href="/">Home</Link>
         <Link href="/products">Products</Link>
+        <Link href="/orders">My Orders</Link>
       </nav>
     </div>
   );
