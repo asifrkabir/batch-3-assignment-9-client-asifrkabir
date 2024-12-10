@@ -13,7 +13,7 @@ const Banner = () => {
           Exclusive Deals on Our Best-Selling Products!
         </h2>
         <p className="text-base sm:text-lg lg:text-xl mb-6">
-          Shop the latest products with amazing discounts. Don't miss out!
+          Shop the latest products with amazing discounts. Don&apos;t miss out!
         </p>
         <Link href="/products">
           <button className="bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-6 rounded-md text-lg font-semibold">

@@ -44,7 +44,7 @@ const ProductDetails = ({ product }: IProps) => {
             <div className="grid grid-cols-1 gap-4 mb-8">
               {Array.from({ length: placeholderCount }).map((_, index) => (
                 <div key={index} className="relative overflow-hidden">
-                  <img
+                  <Image
                     src={`https://placehold.co/300x150/cccccc/ffffff?text=No+Image`}
                     alt={`Placeholder image ${index + 1}`}
                     width={300}
