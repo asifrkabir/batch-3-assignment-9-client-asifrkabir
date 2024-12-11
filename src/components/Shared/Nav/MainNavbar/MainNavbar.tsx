@@ -16,6 +16,7 @@ export default function MainNavbar() {
           Flash Sale!
         </Link>
         <Link href="/orders">My Orders</Link>
+        <Link href="/recent-products">Recently Viewed</Link>
       </nav>
     </div>
   );

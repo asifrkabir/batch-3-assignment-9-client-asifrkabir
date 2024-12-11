@@ -6,6 +6,7 @@ import ProductDetails from "./components/ProductDetails";
 import LoadingSpinner from "@/components/Shared/LoadingSpinner/LoadingSpinner";
 import Reviews from "./components/Review/Reviews";
 import { Separator } from "@/components/ui/separator";
+import { Suspense } from "react";
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
@@ -34,14 +35,18 @@ const ProductDetailsPage = () => {
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold md:text-2xl">Product Details</h1>
       </div>
-      <ProductDetails product={product} />
+      <Suspense>
+        <ProductDetails product={product} />
+      </Suspense>
 
       <div className="mb-10 mt-32">
         <Separator />
         <h2 className="text-xl text-center mt-4">Reviews</h2>
       </div>
 
-      <Reviews productId={id as string} />
+      <Suspense>
+        <Reviews productId={id as string} />
+      </Suspense>
     </div>
   );
 };

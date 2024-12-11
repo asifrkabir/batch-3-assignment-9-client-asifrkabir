@@ -13,12 +13,15 @@ import Link from "next/link";
 import { Eye } from "lucide-react";
 import { IProduct } from "@/types";
 import AddToCart from "../cart/AddToCart";
+import { useRecentProducts } from "@/context/recentProducts.provider";
 
 interface IProps {
   product: IProduct;
 }
 
 const ProductCard = ({ product }: IProps) => {
+  const { addProduct } = useRecentProducts();
+
   const maxContentLength = 100;
   const maxImagesToShow = 2;
 
@@ -34,6 +37,10 @@ const ProductCard = ({ product }: IProps) => {
     onSale,
     shop,
   } = product;
+
+  const handleViewDetails = () => {
+    addProduct(product);
+  };
 
   return (
     <Card className="relative flex flex-col rounded-lg border w-full h-full transition-shadow hover:shadow-md">
@@ -127,7 +134,7 @@ const ProductCard = ({ product }: IProps) => {
       </CardContent>
 
       <CardFooter className="mt-auto p-4 flex flex-wrap space-y-2 justify-between items-center">
-        <Link href={`/products/${_id}`}>
+        <Link href={`/products/${product._id}`} onClick={handleViewDetails}>
           <Button variant="outline" size="sm">
             <Eye className="mr-2" /> View Details
           </Button>

@@ -28,7 +28,7 @@ const ProductCategories = () => {
 
   return (
     <div className="my-8">
-      <Marquee gradient={false} pauseOnHover speed={100}>
+      <Marquee gradient={false} pauseOnHover speed={70}>
         {productCategories.map((category) => (
           <div
             key={category._id}

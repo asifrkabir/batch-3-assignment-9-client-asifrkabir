@@ -38,6 +38,7 @@ export default function MainMobileNavbar() {
               Flash Sale!
             </Link>
             <Link href="/orders">My Orders</Link>
+            <Link href="/recent-products">Recently Viewed</Link>
           </nav>
         </SheetContent>
       </Sheet>
