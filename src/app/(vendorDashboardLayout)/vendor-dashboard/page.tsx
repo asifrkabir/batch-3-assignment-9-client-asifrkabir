@@ -1,10 +1,7 @@
+import Analytics from "./_components/overview";
+
 const VendorDashboardPage = () => {
-  return (
-    <div>
-      <h1>Vendor Dashboard</h1>
-      <p>Welcome to your dashboard!</p>
-    </div>
-  );
+  return <Analytics />;
 };
 
 export default VendorDashboardPage;
