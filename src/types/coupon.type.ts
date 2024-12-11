@@ -20,7 +20,6 @@ export interface IUpdateCoupon {
   id: string;
   payload: {
     code: string;
-    shop: string;
     discountPercentage: number;
   };
 }

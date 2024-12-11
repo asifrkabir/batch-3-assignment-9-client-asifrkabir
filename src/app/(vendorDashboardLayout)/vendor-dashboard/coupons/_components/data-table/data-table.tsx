@@ -17,7 +17,7 @@ import * as React from "react";
 
 import { DataTable } from "@/components/Shared/DataTable/data-table";
 import { DataTablePagination } from "@/components/Shared/DataTable/data-table-pagination";
-import { ProductCategoryDataTableToolbar } from "./toolbar";
+import { CouponDataTableToolbar } from "./toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -64,10 +64,7 @@ export function CouponDataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      {/* <ProductCategoryDataTableToolbar
-        table={table}
-        searchColumns={searchColumns}
-      /> */}
+      <CouponDataTableToolbar table={table} searchColumns={searchColumns} />
       <DataTable table={table} noDataMessage="No records found." />
       <DataTablePagination
         table={table}

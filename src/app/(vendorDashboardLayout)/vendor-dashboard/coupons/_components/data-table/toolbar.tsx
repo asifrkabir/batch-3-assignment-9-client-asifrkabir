@@ -10,7 +10,7 @@ interface DataTableToolbarProps<TData> {
   searchColumns?: string[];
 }
 
-export function ProductCategoryDataTableToolbar<TData>({
+export function CouponDataTableToolbar<TData>({
   table,
   searchColumns = [],
 }: DataTableToolbarProps<TData>) {
