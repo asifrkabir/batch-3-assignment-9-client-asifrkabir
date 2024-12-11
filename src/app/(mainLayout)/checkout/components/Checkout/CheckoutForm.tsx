@@ -13,14 +13,15 @@ import {
 import { Input } from "@/components/ui/input";
 import envConfig from "@/config/envConfig";
 import { useCart } from "@/context/cart.provider";
+import { getCouponByCodeAndShopQuery } from "@/hooks/coupon.hook";
 import { useCreateOrder } from "@/hooks/order.hook";
 import { createOrderValidationSchema } from "@/schemas/order.schema";
-import { IApiResponse, ICreateOrder, IOrder } from "@/types";
+import { IApiResponse, ICoupon, ICreateOrder, IOrder } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import httpStatus from "http-status";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -43,7 +44,17 @@ const CheckoutForm = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const router = useRouter();
-  const COUPON_CODE = "WINTER10";
+  const {
+    data: couponData,
+    isLoading: isCouponLoading,
+    isError: isCouponError,
+  } = useQuery({
+    ...getCouponByCodeAndShopQuery({
+      code: couponCode,
+      shopId: cart.shopId!,
+    }),
+    enabled: !!couponCode,
+  });
 
   const subTotal = cart.totalPrice;
   const totalPrice = Math.round((subTotal - discount) * 100) / 100;
@@ -56,8 +67,16 @@ const CheckoutForm = () => {
   };
 
   const handleCouponValidation = () => {
-    if (couponCode.trim().toUpperCase() === COUPON_CODE) {
-      const discountAmount = Math.round(subTotal * 0.1 * 100) / 100;
+    if (isCouponLoading) {
+      setDialogMessage("Validating coupon... Please wait.");
+    } else if (isCouponError || !couponData) {
+      setDiscount(0);
+      setDialogMessage("An error occurred while validating the coupon.");
+      setCouponCode("");
+    } else if (couponData?.statusCode === httpStatus.OK) {
+      const coupon: ICoupon = couponData.data!;
+      const discountAmount =
+        Math.round(((subTotal * coupon.discountPercentage) / 100) * 100) / 100;
       setDiscount(discountAmount);
       setDialogMessage(
         `Coupon applied! You received a $${discountAmount} discount.`
@@ -118,19 +137,6 @@ const CheckoutForm = () => {
 
           <div className="mt-20 mb-8">
             <h1 className="text-lg font-semibold md:text-2xl">Checkout</h1>
-            <h3 className="text-md">
-              Use code{" "}
-              <button
-                className="text-emerald-500 font-bold hover:underline"
-                onClick={() => {
-                  navigator.clipboard.writeText("WINTER10");
-                  toast.success("Coupon copied to clipboard");
-                }}
-              >
-                WINTER10
-              </button>{" "}
-              to get an additional 10% off!
-            </h3>
           </div>
           <div className="grid gap-4">
             <AppForm
