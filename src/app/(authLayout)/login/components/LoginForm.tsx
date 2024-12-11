@@ -28,7 +28,11 @@ import { toast } from "sonner";
 export function LoginForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { setIsLoading: setUserLoading } = useUser();
+  const {
+    user,
+    setIsLoading: setUserLoading,
+    isLoading: isUserLoading,
+  } = useUser();
   const [loginSuccess, setLoginSuccess] = useState(false);
 
   const redirect = searchParams.get("redirect");
@@ -58,14 +62,28 @@ export function LoginForm() {
   };
 
   useEffect(() => {
-    if (!isPending && loginSuccess) {
+    if (!isPending && loginSuccess && user) {
       if (redirect) {
         router.push(redirect);
       } else {
-        router.push("/");
+        const role = user?.role;
+
+        switch (role) {
+          case "admin":
+            router.push("/admin-dashboard");
+            break;
+
+          case "vendor":
+            router.push("/vendor-dashboard");
+            break;
+
+          default:
+            router.push("/");
+            break;
+        }
       }
     }
-  }, [isPending, loginSuccess, redirect, router]);
+  }, [isPending, loginSuccess, redirect, router, user]);
 
   return (
     <>
