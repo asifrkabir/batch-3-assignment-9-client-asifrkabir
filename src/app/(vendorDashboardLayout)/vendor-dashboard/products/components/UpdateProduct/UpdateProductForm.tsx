@@ -13,8 +13,7 @@ import {
   IApiResponse,
   IDropdownOption,
   IProduct,
-  IProductCategory,
-  IUpdateProduct,
+  IUpdateProduct
 } from "@/types";
 import { extractDropdownOptions } from "@/utils/extractDropdownOptions";
 import { zodResolver } from "@hookform/resolvers/zod";

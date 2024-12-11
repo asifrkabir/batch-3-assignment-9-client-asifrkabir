@@ -36,10 +36,10 @@ const ProductCard = ({ product }: IProps) => {
   } = product;
 
   return (
-    <Card className="relative flex flex-col rounded-lg border w-full h-auto transition-shadow hover:shadow-md">
-      <CardHeader className="flex flex-col p-4">
-        <div className="mt-2 flex justify-between">
-          <div>
+    <Card className="relative flex flex-col rounded-lg border w-full h-full transition-shadow hover:shadow-md">
+      <CardHeader className="flex-grow flex flex-col p-4">
+        <div className="mt-2 grid grid-cols-4 justify-end">
+          <div className="col-span-3">
             <Link
               href={`/products/${product._id}`}
               className="hover:text-emerald-500"
@@ -66,7 +66,7 @@ const ProductCard = ({ product }: IProps) => {
               </p>
             )}
           </div>
-          <div>
+          <div className="col-span-1 ml-auto">
             {inventoryCount <= 0 ? (
               <Badge className="bg-gray-400 text-white">Out of Stock</Badge>
             ) : (
@@ -126,7 +126,7 @@ const ProductCard = ({ product }: IProps) => {
         )}
       </CardContent>
 
-      <CardFooter className="p-4 flex flex-wrap space-y-2 justify-between items-center">
+      <CardFooter className="mt-auto p-4 flex flex-wrap space-y-2 justify-between items-center">
         <Link href={`/products/${_id}`}>
           <Button variant="outline" size="sm">
             <Eye className="mr-2" /> View Details

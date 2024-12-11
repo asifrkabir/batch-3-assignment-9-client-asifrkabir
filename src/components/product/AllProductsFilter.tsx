@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -10,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import useDebounce from "@/hooks/debounce.hook";
 import { useGetAllProductCategories } from "@/hooks/productCategory.hook";
 import { IQueryParam } from "@/types";
@@ -136,13 +134,13 @@ const AllProductsFilter: React.FC<AllProductsFilterProps> = ({ setParams }) => {
         className="max-w-xs"
       />
 
-      <div className="flex items-center gap-2">
+      {/* <div className="flex items-center gap-2">
         <Switch
           {...register("isDiscounted")}
           onCheckedChange={(checked) => setValue("isDiscounted", checked)}
         />
         <label className="text-sm">Show only discounted</label>
-      </div>
+      </div> */}
     </div>
   );
 };
