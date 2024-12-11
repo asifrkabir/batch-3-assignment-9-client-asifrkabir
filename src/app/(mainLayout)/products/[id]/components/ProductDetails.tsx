@@ -1,7 +1,10 @@
 "use client";
 
 import AddToCart from "@/components/cart/AddToCart";
-import { IProduct } from "@/types";
+import { getAllReviewsQuery } from "@/hooks/review.hook";
+import { IProduct, IReview } from "@/types";
+import { useQuery } from "@tanstack/react-query";
+import { Loader2, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,6 +14,7 @@ interface IProps {
 
 const ProductDetails = ({ product }: IProps) => {
   const {
+    _id,
     name,
     description,
     price,
@@ -21,6 +25,25 @@ const ProductDetails = ({ product }: IProps) => {
     onSale,
     shop,
   } = product;
+
+  // Fetch reviews for the current product
+  const { data: reviewsData, isLoading: isReviewsLoading } = useQuery({
+    ...getAllReviewsQuery([
+      { name: "limit", value: "10000" },
+      { name: "product", value: _id },
+    ]),
+    enabled: !!_id,
+  });
+
+  const getAverageRating = (reviews: IReview[]): number => {
+    if (reviews.length === 0) return 0;
+    const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return totalRating / reviews.length;
+  };
+
+  const averageRating = reviewsData?.data
+    ? getAverageRating(reviewsData.data)
+    : 0;
 
   const placeholderCount = 1;
 
@@ -61,12 +84,9 @@ const ProductDetails = ({ product }: IProps) => {
 
         <div className="flex flex-col">
           <h1 className="text-3xl font-semibold">{name}</h1>
-          <Link
-              href={`/shops/${shop._id}`}
-              className="hover:text-emerald-500"
-            >
-              <h3 className="text-md mb-4">{shop.name}</h3>
-            </Link>
+          <Link href={`/shops/${shop._id}`} className="hover:text-emerald-500">
+            <h3 className="text-md mb-4">{shop.name}</h3>
+          </Link>
           <h3 className="text-md mb-4">Category: {category.name}</h3>
 
           {description && (
@@ -89,6 +109,30 @@ const ProductDetails = ({ product }: IProps) => {
               <span className="text-red-500 font-semibold">Out of Stock</span>
             ) : (
               <span className="text-emerald-500 font-semibold">In Stock</span>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2 mb-4">
+            {isReviewsLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <>
+                <div className="flex">
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <Star
+                      key={index}
+                      className={`h-6 w-6 ${
+                        index < averageRating
+                          ? "text-yellow-400"
+                          : "text-gray-300"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <span className="text-sm text-gray-500 ml-2">
+                  {averageRating.toFixed(1)} / 5
+                </span>
+              </>
             )}
           </div>
 
