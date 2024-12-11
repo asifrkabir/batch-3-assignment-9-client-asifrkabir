@@ -17,9 +17,10 @@ import {
 } from "@/components/ui/table";
 import { getAllProductsForFeedQuery } from "@/hooks/product.hook";
 import { useGetAllProductCategories } from "@/hooks/productCategory.hook";
-import { IProduct, IProductCategory } from "@/types";
+import { getAllReviewsQuery } from "@/hooks/review.hook";
+import { IProduct, IProductCategory, IReview } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { Loader2, Star } from "lucide-react";
 import { useState } from "react";
 
 const CompareProducts = () => {
@@ -28,11 +29,9 @@ const CompareProducts = () => {
     [null, null, null]
   );
 
-  // Fetch categories
   const { data: productCategoriesData, isLoading: isProductCategoriesLoading } =
     useGetAllProductCategories([{ name: "limit", value: "10000" }]);
 
-  // Fetch products based on selected category
   const { data: productsData, isLoading: isProductsLoading } = useQuery({
     ...getAllProductsForFeedQuery([
       { name: "limit", value: "10000" },
@@ -40,6 +39,16 @@ const CompareProducts = () => {
     ]),
     enabled: !!selectedCategory,
   });
+
+  const reviewsQueries = selectedProducts.map((product) =>
+    useQuery({
+      ...getAllReviewsQuery([
+        { name: "limit", value: "10000" },
+        { name: "product", value: product ? product._id : "" },
+      ]),
+      enabled: !!product,
+    })
+  );
 
   const productCategories: IProductCategory[] =
     productCategoriesData?.data || [];
@@ -60,6 +69,27 @@ const CompareProducts = () => {
     setSelectedCategory("");
   };
 
+  const getRatingForProduct = (productId: string): number | null => {
+    const productReviewsQuery = reviewsQueries.find(
+      (query) =>
+        query?.data?.data &&
+        query.data.data.some(
+          (review: IReview) => review.product._id === productId
+        )
+    );
+    if (productReviewsQuery && productReviewsQuery?.data?.data) {
+      const productReviews = productReviewsQuery.data.data.filter(
+        (review) => review.product._id === productId
+      );
+      if (productReviews.length === 0) return null;
+      const averageRating =
+        productReviews.reduce((acc, review) => acc + review.rating, 0) /
+        productReviews.length;
+      return averageRating;
+    }
+    return null;
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -73,7 +103,10 @@ const CompareProducts = () => {
             </p>
             <Select
               value={selectedCategory}
-              onValueChange={(value) => setSelectedCategory(value)}
+              onValueChange={(value) => {
+                handleReset();
+                setSelectedCategory(value);
+              }}
             >
               <SelectTrigger className="w-full md:w-64">
                 <SelectValue placeholder="Select a Category" />
@@ -145,6 +178,35 @@ const CompareProducts = () => {
                   {selectedProducts.map((product, index) => (
                     <TableCell key={index}>
                       {product ? `$${product.price}` : "-"}
+                    </TableCell>
+                  ))}
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Rating</TableCell>
+                  {selectedProducts.map((product, index) => (
+                    <TableCell key={index}>
+                      {product ? (
+                        getRatingForProduct(product._id) !== null ? (
+                          <>
+                            <div className="flex">
+                              {Array.from({ length: 5 }, (_, idx) => (
+                                <Star
+                                  key={idx}
+                                  className={`h-6 w-6 cursor-pointer transition ${
+                                    idx < getRatingForProduct(product._id)!
+                                      ? "text-yellow-400"
+                                      : "text-gray-300"
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                          </>
+                        ) : (
+                          "-"
+                        )
+                      ) : (
+                        "-"
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
