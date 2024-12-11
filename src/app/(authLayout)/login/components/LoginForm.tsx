@@ -31,7 +31,6 @@ export function LoginForm() {
   const {
     user,
     setIsLoading: setUserLoading,
-    isLoading: isUserLoading,
   } = useUser();
   const [loginSuccess, setLoginSuccess] = useState(false);
 

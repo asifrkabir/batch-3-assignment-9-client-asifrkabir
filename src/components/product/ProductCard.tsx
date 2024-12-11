@@ -1,19 +1,19 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { useRecentProducts } from "@/context/recentProducts.provider";
+import { IProduct } from "@/types";
+import { Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Eye } from "lucide-react";
-import { IProduct } from "@/types";
 import AddToCart from "../cart/AddToCart";
-import { useRecentProducts } from "@/context/recentProducts.provider";
 
 interface IProps {
   product: IProduct;
@@ -26,7 +26,6 @@ const ProductCard = ({ product }: IProps) => {
   const maxImagesToShow = 2;
 
   const {
-    _id,
     name,
     description,
     price,

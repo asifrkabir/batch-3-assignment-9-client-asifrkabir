@@ -40,15 +40,29 @@ const CompareProducts = () => {
     enabled: !!selectedCategory,
   });
 
-  const reviewsQueries = selectedProducts.map((product) =>
-    useQuery({
-      ...getAllReviewsQuery([
-        { name: "limit", value: "10000" },
-        { name: "product", value: product ? product._id : "" },
-      ]),
-      enabled: !!product,
-    })
-  );
+  const reviewsQuery0 = useQuery({
+    ...getAllReviewsQuery([
+      { name: "limit", value: "10000" },
+      { name: "product", value: selectedProducts[0]?._id || "" },
+    ]),
+    enabled: !!selectedProducts[0],
+  });
+
+  const reviewsQuery1 = useQuery({
+    ...getAllReviewsQuery([
+      { name: "limit", value: "10000" },
+      { name: "product", value: selectedProducts[1]?._id || "" },
+    ]),
+    enabled: !!selectedProducts[1],
+  });
+
+  const reviewsQuery2 = useQuery({
+    ...getAllReviewsQuery([
+      { name: "limit", value: "10000" },
+      { name: "product", value: selectedProducts[2]?._id || "" },
+    ]),
+    enabled: !!selectedProducts[2],
+  });
 
   const productCategories: IProductCategory[] =
     productCategoriesData?.data || [];
@@ -69,19 +83,21 @@ const CompareProducts = () => {
     setSelectedCategory("");
   };
 
-  const getRatingForProduct = (productId: string): number | null => {
-    const productReviewsQuery = reviewsQueries.find(
-      (query) =>
-        query?.data?.data &&
-        query.data.data.some(
-          (review: IReview) => review.product._id === productId
-        )
-    );
-    if (productReviewsQuery && productReviewsQuery?.data?.data) {
-      const productReviews = productReviewsQuery.data.data.filter(
-        (review) => review.product._id === productId
+  const getRatingForProduct = (productIndex: number): number | null => {
+    const query =
+      productIndex === 0
+        ? reviewsQuery0
+        : productIndex === 1
+        ? reviewsQuery1
+        : reviewsQuery2;
+
+    if (query?.data?.data) {
+      const productReviews = query.data.data.filter(
+        (review: IReview) =>
+          review.product._id === selectedProducts[productIndex]?._id
       );
       if (productReviews.length === 0) return null;
+
       const averageRating =
         productReviews.reduce((acc, review) => acc + review.rating, 0) /
         productReviews.length;
@@ -186,21 +202,19 @@ const CompareProducts = () => {
                   {selectedProducts.map((product, index) => (
                     <TableCell key={index}>
                       {product ? (
-                        getRatingForProduct(product._id) !== null ? (
-                          <>
-                            <div className="flex">
-                              {Array.from({ length: 5 }, (_, idx) => (
-                                <Star
-                                  key={idx}
-                                  className={`h-6 w-6 cursor-pointer transition ${
-                                    idx < getRatingForProduct(product._id)!
-                                      ? "text-yellow-400"
-                                      : "text-gray-300"
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                          </>
+                        getRatingForProduct(index) !== null ? (
+                          <div className="flex">
+                            {Array.from({ length: 5 }, (_, idx) => (
+                              <Star
+                                key={idx}
+                                className={`h-6 w-6 cursor-pointer transition ${
+                                  idx < getRatingForProduct(index)!
+                                    ? "text-yellow-400"
+                                    : "text-gray-300"
+                                }`}
+                              />
+                            ))}
+                          </div>
                         ) : (
                           "-"
                         )

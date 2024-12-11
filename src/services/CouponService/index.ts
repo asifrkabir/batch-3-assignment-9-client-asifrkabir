@@ -7,11 +7,8 @@ import {
   ICheckCoupon,
   ICoupon,
   ICreateCoupon,
-  ICreateProductCategory,
-  IProductCategory,
   IQueryParam,
   IUpdateCoupon,
-  IUpdateProductCategory,
 } from "@/types";
 
 export const getAllCoupons = async (params?: IQueryParam[]) => {
