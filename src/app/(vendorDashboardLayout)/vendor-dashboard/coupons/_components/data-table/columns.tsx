@@ -8,6 +8,7 @@ import {
 import { ICoupon } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreVertical } from "lucide-react";
+import DeleteCouponDropdownItem from "../DeleteCoupon/DeleteCouponDropdownItem";
 import { UpdateCouponModal } from "../UpdateCoupon/UpdateCouponModal";
 
 export const columns: ColumnDef<ICoupon>[] = [
@@ -58,7 +59,7 @@ export const columns: ColumnDef<ICoupon>[] = [
           <DropdownMenuContent>
             <UpdateCouponModal id={coupon._id} />
             <DropdownMenuSeparator />
-            {/* <DeleteProductCategoryDropdownItem id={productCategory._id} /> */}
+            <DeleteCouponDropdownItem id={coupon._id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
