@@ -1,4 +1,5 @@
 import Products from "@/components/product/Products";
+import { Suspense } from "react";
 import Banner from "./components/Banner";
 import ProductCategories from "./components/ProductCategories";
 
@@ -19,7 +20,9 @@ export default function HomePage() {
       <div className="flex items-center justify-center mb-8 mt-20">
         <h1 className="text-lg font-semibold md:text-2xl">Products</h1>
       </div>
-      <Products />
+      <Suspense>
+        <Products />
+      </Suspense>
     </div>
   );
 }

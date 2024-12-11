@@ -1,4 +1,5 @@
 import Products from "@/components/product/Products";
+import { Suspense } from "react";
 
 const ProductsPage = () => {
   return (
@@ -6,7 +7,9 @@ const ProductsPage = () => {
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-lg font-semibold md:text-2xl">All Products</h1>
       </div>
-      <Products />
+      <Suspense>
+        <Products />
+      </Suspense>
     </div>
   );
 };

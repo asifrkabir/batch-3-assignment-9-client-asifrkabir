@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Orders from "./components/Orders";
 
 const OrderPage = () => {
@@ -6,7 +7,9 @@ const OrderPage = () => {
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-lg font-semibold md:text-2xl">My Orders</h1>
       </div>
-      <Orders />
+      <Suspense>
+        <Orders />
+      </Suspense>
     </div>
   );
 };
