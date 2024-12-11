@@ -45,7 +45,7 @@ const CheckoutCart = ({ subTotal, discount, total }: CheckoutCartProps) => {
         </Table>
       </div>
 
-      <div className="p-4 border-t bg-gray-50">
+      <div className="p-4 border-t bg-gray-50 dark:bg-neutral-900">
         <div className="space-y-2">
           <div className="flex justify-between">
             <p className="text-gray-500">Subtotal:</p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import CheckoutForm from "./components/Checkout/CheckoutForm";
 
 const CheckoutPage = () => {
@@ -15,7 +15,7 @@ const CheckoutPage = () => {
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-lg font-semibold md:text-2xl">Cart Details</h1>
       </div>
-      {isClient && <CheckoutForm />}
+      <Suspense>{isClient && <CheckoutForm />}</Suspense>
     </div>
   );
 };

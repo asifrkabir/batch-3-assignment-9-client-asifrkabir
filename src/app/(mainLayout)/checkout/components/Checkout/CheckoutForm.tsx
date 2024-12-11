@@ -116,8 +116,21 @@ const CheckoutForm = () => {
             total={totalPrice}
           />
 
-          <div className="flex items-center justify-between mt-20 mb-8">
+          <div className="mt-20 mb-8">
             <h1 className="text-lg font-semibold md:text-2xl">Checkout</h1>
+            <h3 className="text-md">
+              Use code{" "}
+              <button
+                className="text-emerald-500 font-bold hover:underline"
+                onClick={() => {
+                  navigator.clipboard.writeText("WINTER10");
+                  toast.success("Coupon copied to clipboard");
+                }}
+              >
+                WINTER10
+              </button>{" "}
+              to get an additional 10% off!
+            </h3>
           </div>
           <div className="grid gap-4">
             <AppForm
@@ -166,7 +179,6 @@ const CheckoutForm = () => {
         <p className="text-center text-gray-500">Your cart is empty.</p>
       )}
 
-      {/* Payment Modal */}
       {orderId !== "" && (
         <Elements stripe={stripePromise}>
           <PaymentModal
@@ -182,7 +194,6 @@ const CheckoutForm = () => {
         </Elements>
       )}
 
-      {/* Dialog for Coupon Validation */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>
