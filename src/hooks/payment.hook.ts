@@ -3,6 +3,7 @@ import {
   createPayment,
   createPaymentIntent,
   getAllPayments,
+  getTotalRevenue,
 } from "@/services/PaymentService";
 import { ICreatePayment, IPaymentIntent, IQueryParam } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -27,5 +28,16 @@ export const getAllPaymentsQuery = (params?: IQueryParam[]) => ({
 export const useGetAllPayments = (params?: IQueryParam[]) => {
   return useQuery({
     ...getAllPaymentsQuery(params),
+  });
+};
+
+export const getTotalRevenueQuery = (params?: IQueryParam[]) => ({
+  queryKey: ["TOTAL_REVENUE", params],
+  queryFn: async () => await getTotalRevenue(params),
+});
+
+export const useGetTotalRevenue = (params?: IQueryParam[]) => {
+  return useQuery({
+    ...getTotalRevenueQuery(params),
   });
 };
