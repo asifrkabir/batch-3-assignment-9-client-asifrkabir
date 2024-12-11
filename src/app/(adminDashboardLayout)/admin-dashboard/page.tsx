@@ -1,9 +1,7 @@
+import Analytics from "./_components/overview";
+
 const page = () => {
-  return (
-    <div className="">
-      <h1>This is page</h1>
-    </div>
-  );
+  return <Analytics />;
 };
 
 export default page;

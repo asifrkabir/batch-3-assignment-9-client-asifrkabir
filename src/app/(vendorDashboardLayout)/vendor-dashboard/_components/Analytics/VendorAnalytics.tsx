@@ -1,7 +1,7 @@
 "use client";
 
+import TotalRevenueCard from "@/components/analytics/TotalRevenueCard";
 import { useShop } from "@/context/shop.provider";
-import TotalRevenueCard from "./TotalRevenueCard";
 
 const VendorAnalytics = () => {
   const { shop } = useShop();

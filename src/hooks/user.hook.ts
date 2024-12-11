@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { deleteUser, getAllUsers } from "@/services/UserService";
+import { deleteUser, getAllUsers, getTotalUsers } from "@/services/UserService";
 import { IApiResponse, IQueryParam, IUser } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import httpStatus from "http-status";
@@ -37,5 +37,16 @@ export const useDeleteUser = () => {
       console.error(error);
       toast.error(error.message || "Failed to delete User. Please try again.");
     },
+  });
+};
+
+export const getTotalUsersQuery = (params?: IQueryParam[]) => ({
+  queryKey: ["TOTAL_USERS", params],
+  queryFn: async () => await getTotalUsers(params),
+});
+
+export const useGetTotalUsers = (params?: IQueryParam[]) => {
+  return useQuery({
+    ...getTotalUsersQuery(params),
   });
 };
