@@ -45,9 +45,9 @@ const NavbarUser = () => {
     case "admin":
       dashboardUrl = "/admin-dashboard";
       break;
-    case "user":
-      dashboardUrl = "/user-dashboard";
-      break;
+    // case "user":
+    //   dashboardUrl = "/user-dashboard";
+    //   break;
     case "vendor":
       dashboardUrl = "/vendor-dashboard";
       break;
@@ -76,10 +76,14 @@ const NavbarUser = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Link href={dashboardUrl}>Dashboard</Link>
-        </DropdownMenuItem>
+        {user?.role !== "user" && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href={dashboardUrl}>Dashboard</Link>
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Button onClick={handleLogout} className="w-full">
