@@ -8,6 +8,7 @@ import {
 import {
   Boxes,
   CircleDollarSign,
+  Gem,
   House,
   LayoutDashboard,
   Logs,
@@ -60,6 +61,11 @@ const items: IMenuItem[] = [
     title: "Orders",
     url: "/vendor-dashboard/orders",
     icon: Logs,
+  },
+  {
+    title: "Coupons",
+    url: "/vendor-dashboard/coupons",
+    icon: Gem,
   },
 ];
 

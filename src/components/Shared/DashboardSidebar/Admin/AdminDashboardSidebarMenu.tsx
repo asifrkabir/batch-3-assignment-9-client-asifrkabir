@@ -6,7 +6,9 @@ import {
   SidebarMenu,
 } from "@/components/ui/sidebar";
 import {
+  Boxes,
   CircleDollarSign,
+  Gem,
   House,
   LayoutDashboard,
   ListTodo,
@@ -14,7 +16,6 @@ import {
   type LucideIcon,
   Store,
   Users,
-  Boxes,
 } from "lucide-react";
 import DashboardSidebarMenuItemDropdown from "../DashboardSidebarMenuItemDropdown";
 import DashboardSidebarMenuItemSingle from "../DashboardSidebarMenuItemSingle";
@@ -72,6 +73,11 @@ const items: IMenuItem[] = [
     title: "Orders",
     url: "/admin-dashboard/orders",
     icon: Logs,
+  },
+  {
+    title: "Coupons",
+    url: "/admin-dashboard/coupons",
+    icon: Gem,
   },
 ];
 
