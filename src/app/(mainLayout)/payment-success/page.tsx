@@ -1,11 +1,10 @@
-"use client";
-
 import { Suspense } from "react";
+import PaymentSuccess from "./components/PaymentSuccess";
 
 const PaymentSuccessPage = () => {
   return (
     <Suspense>
-      <PaymentSuccessPage />
+      <PaymentSuccess />
     </Suspense>
   );
 };
