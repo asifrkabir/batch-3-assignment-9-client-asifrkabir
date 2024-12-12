@@ -63,45 +63,45 @@ export const columns: ColumnDef<IOrder>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: "status",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Payment Status" />
-    ),
-    cell: ({ row }) => {
-      const status = row.getValue("status");
-      let renderedStatus = (
-        <div className="flex space-x-2">
-          <span className="w-[150px]">{row.getValue("status")}</span>
-        </div>
-      );
+  // {
+  //   accessorKey: "status",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Payment Status" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const status = row.getValue("status");
+  //     let renderedStatus = (
+  //       <div className="flex space-x-2">
+  //         <span className="w-[150px]">{row.getValue("status")}</span>
+  //       </div>
+  //     );
 
-      switch (status) {
-        case "pending":
-          renderedStatus = (
-            <Badge className="uppercase bg-red-500">{status}</Badge>
-          );
-          break;
-        case "complete":
-          renderedStatus = (
-            <Badge className="uppercase bg-emerald-500">{status}</Badge>
-          );
-          break;
+  //     switch (status) {
+  //       case "pending":
+  //         renderedStatus = (
+  //           <Badge className="uppercase bg-red-500">{status}</Badge>
+  //         );
+  //         break;
+  //       case "complete":
+  //         renderedStatus = (
+  //           <Badge className="uppercase bg-emerald-500">{status}</Badge>
+  //         );
+  //         break;
 
-        default:
-          break;
-      }
+  //       default:
+  //         break;
+  //     }
 
-      return renderedStatus;
-    },
-    filterFn: (row, columnId, filterValue) => {
-      const cellValue = row.getValue(columnId);
-      // Check for exact match
-      return filterValue.includes(cellValue);
-    },
-    enableSorting: false,
-    enableHiding: false,
-  },
+  //     return renderedStatus;
+  //   },
+  //   filterFn: (row, columnId, filterValue) => {
+  //     const cellValue = row.getValue(columnId);
+  //     // Check for exact match
+  //     return filterValue.includes(cellValue);
+  //   },
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: "createdAt",
     header: ({ column }) => (

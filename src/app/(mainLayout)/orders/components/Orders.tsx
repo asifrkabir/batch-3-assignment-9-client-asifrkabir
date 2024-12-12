@@ -11,14 +11,20 @@ import { OrderDataTable } from "./data-table/data-table";
 const Orders = () => {
   const { user, isLoading: isUserLoading } = useUser();
   const [params, setParams] = useState<IQueryParam[]>([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const { data, isLoading: isOrdersLoading, isError } = useGetAllOrders(params);
 
   useEffect(() => {
     if (user?.userId) {
-      setParams([{ name: "user", value: user.userId }]);
+      setParams([
+        { name: "user", value: user.userId },
+        { name: "limit", value: pageSize },
+        { name: "page", value: page },
+      ]);
     }
-  }, [user]);
+  }, [user, page, pageSize]);
 
   if (isUserLoading || !user?.userId || isOrdersLoading) {
     return <DataTableLoadingSkeleton rows={10} columns={1} />;
@@ -29,10 +35,21 @@ const Orders = () => {
   }
 
   const orders: IOrder[] = data?.data || [];
+  const totalRows = data?.meta?.total || 0;
 
   return (
     <>
-      <OrderDataTable data={orders} columns={columns} />
+      <OrderDataTable
+        data={orders}
+        columns={columns}
+        pagination={{
+          page,
+          pageSize,
+          totalRows: totalRows,
+          onPageChange: setPage,
+          onPageSizeChange: setPageSize,
+        }}
+      />
     </>
   );
 };
