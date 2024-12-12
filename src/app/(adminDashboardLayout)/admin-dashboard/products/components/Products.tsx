@@ -5,9 +5,16 @@ import { useGetAllProducts } from "@/hooks/product.hook";
 import { IProduct } from "@/types";
 import { columns } from "./data-table/columns";
 import { ProductDataTable } from "./data-table/data-table";
+import { useState } from "react";
 
 const Products = () => {
-  const { data, isLoading, isError } = useGetAllProducts();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const { data, isLoading, isError } = useGetAllProducts([
+    { name: "limit", value: pageSize },
+    { name: "page", value: page },
+  ]);
 
   if (isLoading) {
     return <DataTableLoadingSkeleton rows={10} columns={1} />;
@@ -18,10 +25,21 @@ const Products = () => {
   }
 
   const products: IProduct[] = data?.data || [];
+  const totalRows = data?.meta?.total || 0;
 
   return (
     <>
-      <ProductDataTable data={products} columns={columns} />
+      <ProductDataTable
+        data={products}
+        columns={columns}
+        pagination={{
+          page,
+          pageSize,
+          totalRows: totalRows,
+          onPageChange: setPage,
+          onPageSizeChange: setPageSize,
+        }}
+      />
     </>
   );
 };
