@@ -12,13 +12,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { usePathname, useRouter } from "next/navigation";
+import { protectedRoutes } from "@/constant";
 import { useUser } from "@/context/user.provider";
 import { logout } from "@/services/AuthService";
-import { protectedRoutes } from "@/constant";
+import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 const NavbarUser = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
   const { user, setIsLoading: setUserLoading } = useUser();
@@ -27,6 +29,11 @@ const NavbarUser = () => {
   const handleLogout = () => {
     logout();
     setUserLoading(true);
+    
+    localStorage.setItem("cart", "");
+    localStorage.setItem("recentProducts", "");
+
+    queryClient.clear();
 
     if (protectedRoutes.some((route) => pathname.match(route))) {
       router.push("/");
