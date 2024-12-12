@@ -34,3 +34,8 @@ export interface ICreateOrderProduct {
   price: number;
   quantity: number;
 }
+
+export interface IWeeklySale {
+  week: string;
+  totalOrders: number;
+}

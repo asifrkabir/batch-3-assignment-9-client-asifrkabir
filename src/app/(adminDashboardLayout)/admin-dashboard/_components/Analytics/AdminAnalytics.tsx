@@ -1,5 +1,6 @@
 "use client";
 
+import { CurrentMonthSalesCard } from "@/components/analytics/CurrentMonthSalesCard";
 import RecentOrdersCard from "@/components/analytics/RecentOrdersCard";
 import TotalOrdersCard from "@/components/analytics/TotalOrdersCard";
 import TotalRevenueCard from "@/components/analytics/TotalRevenueCard";
@@ -13,7 +14,8 @@ const AdminAnalytics = () => {
         <TotalUsersCard />
         <TotalOrdersCard />
       </div>
-      <div>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <CurrentMonthSalesCard />
         <RecentOrdersCard />
       </div>
     </>

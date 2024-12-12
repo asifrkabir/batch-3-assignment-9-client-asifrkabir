@@ -1,5 +1,6 @@
 "use client";
 
+import { CurrentMonthSalesCard } from "@/components/analytics/CurrentMonthSalesCard";
 import RecentOrdersCard from "@/components/analytics/RecentOrdersCard";
 import TotalOrdersCard from "@/components/analytics/TotalOrdersCard";
 import TotalRevenueCard from "@/components/analytics/TotalRevenueCard";
@@ -14,7 +15,8 @@ const VendorAnalytics = () => {
         <TotalRevenueCard shopId={shop._id} />
         <TotalOrdersCard shopId={shop._id} />
       </div>
-      <div>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <CurrentMonthSalesCard shopId={shop._id} />
         <RecentOrdersCard shopId={shop._id} />
       </div>
     </>

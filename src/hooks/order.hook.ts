@@ -4,6 +4,7 @@ import {
   getAllOrders,
   getOrderById,
   getTotalOrders,
+  getWeeklySales,
 } from "@/services/OrderService";
 import { ICreateOrder, IQueryParam } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -44,5 +45,16 @@ export const getTotalOrdersQuery = (params?: IQueryParam[]) => ({
 export const useGetTotalOrders = (params?: IQueryParam[]) => {
   return useQuery({
     ...getTotalOrdersQuery(params),
+  });
+};
+
+export const getWeeklySalesQuery = (params?: IQueryParam[]) => ({
+  queryKey: ["WEEKLY_SALES", params],
+  queryFn: async () => await getWeeklySales(params),
+});
+
+export const useGetWeeklySales = (params?: IQueryParam[]) => {
+  return useQuery({
+    ...getWeeklySalesQuery(params),
   });
 };

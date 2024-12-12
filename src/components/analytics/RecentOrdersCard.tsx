@@ -13,7 +13,7 @@ const RecentOrdersCard = ({ shopId }: IProps) => {
     ? [{ name: "shop", value: shopId }]
     : [];
 
-  filters.push({ name: "limit", value: 5 });
+  filters.push({ name: "limit", value: 6 });
   filters.push({ name: "sort", value: "-createdAt" });
 
   const { data, isLoading } = useGetAllOrders(filters);
@@ -21,7 +21,7 @@ const RecentOrdersCard = ({ shopId }: IProps) => {
   const orders = data?.data || [];
 
   return (
-    <Card className="col-span-4 md:col-span-7">
+    <Card className="col-span-4 md:col-span-2 lg:col-span-2">
       <CardHeader>
         <CardTitle>Recent Orders</CardTitle>
       </CardHeader>
