@@ -8,6 +8,7 @@ export interface IOrder {
   shop: IShop;
   products: IOrderProduct[];
   totalPrice: number;
+  discount?: number;
   status: "pending" | "complete";
   createdAt: string;
   updatedAt: string;

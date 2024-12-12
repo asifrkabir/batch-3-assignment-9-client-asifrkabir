@@ -17,7 +17,7 @@ const PaymentSuccess = () => {
         <h1 className="text-3xl font-bold text-emerald-600">
           Payment Successful!
         </h1>
-        <p className="text-gray-600">
+        <p>
           Thank you for your purchase! We hope you to see you again soon.
         </p>
       </div>

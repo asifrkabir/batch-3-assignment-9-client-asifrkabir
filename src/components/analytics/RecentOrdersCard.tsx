@@ -47,7 +47,7 @@ const RecentOrdersCard = ({ shopId }: IProps) => {
                   </p>
                 </div>
                 <div className="ml-auto font-medium">
-                  +${order?.totalPrice || "Unknown"}
+                  +${order?.totalPrice - (order?.discount || 0) || "Unknown"}
                 </div>
               </div>
             ))

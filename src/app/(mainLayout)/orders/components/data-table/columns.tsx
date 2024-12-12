@@ -52,11 +52,12 @@ export const columns: ColumnDef<IOrder>[] = [
       <DataTableColumnHeader column={column} title="Total Price ($)" />
     ),
     cell: ({ row }) => {
-      const totalPrice = parseFloat(row.original.totalPrice.toFixed(2));
+      const totalPrice = parseFloat(row.original?.totalPrice.toFixed(2));
+      const discount = parseFloat((row.original?.discount || 0).toFixed(2));
 
       return (
         <div className="flex space-x-2">
-          <span className="w-[150px]">{totalPrice}</span>
+          <span className="w-[150px]">{totalPrice - discount}</span>
         </div>
       );
     },

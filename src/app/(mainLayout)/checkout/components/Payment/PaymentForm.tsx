@@ -145,7 +145,7 @@ const PaymentForm = ({ onPaymentSuccess, paymentData }: IProps) => {
                 style: {
                   base: {
                     fontSize: "16px",
-                    color: "#424770",
+                    color: "#10b981",
                     "::placeholder": {
                       color: "#aab7c4",
                     },
