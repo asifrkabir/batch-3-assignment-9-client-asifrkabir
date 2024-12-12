@@ -3,50 +3,62 @@
 import {
   ColumnDef,
   ColumnFiltersState,
+  SortingState,
+  VisibilityState,
   getCoreRowModel,
+  getFacetedRowModel,
   getFacetedUniqueValues,
   getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import * as React from "react";
 
 import { DataTable } from "@/components/Shared/DataTable/data-table";
+import { DataTablePagination } from "@/components/Shared/DataTable/data-table-pagination";
 import { ProductDataTableToolbar } from "./toolbar";
-import { DataTablePagination } from "./data-table-pagination";
-
-interface PaginationProps {
-  page: number;
-  pageSize: number;
-  totalRows: number;
-  onPageChange: (page: number) => void;
-  onPageSizeChange: (pageSize: number) => void;
-}
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  pagination?: PaginationProps;
 }
 
 export function ProductDataTable<TData, TValue>({
   columns,
   data,
-  pagination,
 }: DataTableProps<TData, TValue>) {
+  const rowSelectionEnabled = false;
+
   const searchColumns = ["name"];
+
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data,
     columns,
     state: {
+      sorting,
+      columnVisibility,
+      rowSelection,
       columnFilters,
     },
+    enableRowSelection: rowSelectionEnabled,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
@@ -54,15 +66,10 @@ export function ProductDataTable<TData, TValue>({
     <div className="space-y-4">
       <ProductDataTableToolbar table={table} searchColumns={searchColumns} />
       <DataTable table={table} noDataMessage="No records found." />
-      {pagination && (
-        <DataTablePagination
-          page={pagination.page}
-          pageSize={pagination.pageSize}
-          totalRows={pagination.totalRows}
-          onPageChange={pagination.onPageChange}
-          onPageSizeChange={pagination.onPageSizeChange}
-        />
-      )}
+      <DataTablePagination
+        table={table}
+        selectionEnabled={rowSelectionEnabled}
+      />
     </div>
   );
 }
