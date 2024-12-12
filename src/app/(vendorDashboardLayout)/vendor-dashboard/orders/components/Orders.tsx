@@ -10,7 +10,10 @@ import { useState } from "react";
 
 const Orders = () => {
   const { shop } = useShop();
-  const [params] = useState<IQueryParam[]>([{ name: "shop", value: shop._id }]);
+  const [params] = useState<IQueryParam[]>([
+    { name: "shop", value: shop._id },
+    { name: "limit", value: 10000 },
+  ]);
 
   const { data, isLoading, isError } = useGetAllOrders(params);
 
