@@ -6,7 +6,7 @@ import httpStatus from "http-status";
 import { toast } from "sonner";
 
 export const getAllUsersQuery = (params?: IQueryParam[]) => ({
-  queryKey: ["USERS"],
+  queryKey: ["USERS", params],
   queryFn: async () => await getAllUsers(params),
 });
 
