@@ -29,6 +29,17 @@ const ShopChecker = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
+  if (shop?.isBlacklisted) {
+    return (
+      <div className="flex flex-col items-center gap-1 text-center my-40">
+        <h3 className="text-2xl font-bold max-w-lg">
+          Your shop is currently blacklisted. Please contact with your
+          designated account manager for next actions.
+        </h3>
+      </div>
+    );
+  }
+
   return (
     <ShopProvider value={{ shop, isLoading, isError }}>{children}</ShopProvider>
   );

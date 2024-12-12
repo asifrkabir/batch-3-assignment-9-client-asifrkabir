@@ -124,6 +124,7 @@ export function UpdateProductForm({ closeModal, id }: IProps) {
           toast.success("Product updated successfully");
 
           queryClient.invalidateQueries({ queryKey: ["PRODUCTS"] });
+          queryClient.invalidateQueries({ queryKey: ["PRODUCT", id] });
 
           closeModal();
         } else {
