@@ -4,7 +4,7 @@ import { ISuspendUserToggle } from "@/types";
 
 interface IProps {
   id: string;
-  isSuspended: boolean;
+  isSuspended?: boolean;
 }
 
 const ToggleUserSuspendDropdownItem = ({ id, isSuspended }: IProps) => {

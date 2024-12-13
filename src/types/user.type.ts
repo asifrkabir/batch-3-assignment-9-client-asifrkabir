@@ -5,7 +5,7 @@ export interface IUser {
   email: string;
   role: string;
   profilePicture?: string;
-  isSuspended: boolean;
+  isSuspended?: boolean;
   isActive?: boolean;
   createdAt?: string;
   updatedAt?: string;

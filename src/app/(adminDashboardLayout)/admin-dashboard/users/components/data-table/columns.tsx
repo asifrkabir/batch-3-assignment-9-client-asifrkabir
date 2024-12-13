@@ -139,7 +139,7 @@ export const columns: ColumnDef<IUser>[] = [
           <DropdownMenuContent>
             <ToggleUserSuspendDropdownItem
               id={user._id as string}
-              isSuspended={user.isSuspended}
+              isSuspended={user?.isSuspended as boolean}
             />
             <DropdownMenuSeparator />
             <DeleteUserDropdownItem id={user._id as string} />
