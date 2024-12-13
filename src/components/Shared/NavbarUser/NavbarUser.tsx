@@ -29,7 +29,7 @@ const NavbarUser = () => {
   const handleLogout = () => {
     logout();
     setUserLoading(true);
-    
+
     localStorage.setItem("cart", "");
     localStorage.setItem("recentProducts", "");
 
@@ -91,9 +91,16 @@ const NavbarUser = () => {
             </DropdownMenuItem>
           </>
         )}
+        <DropdownMenuItem>
+          <Link href="/change-password">Change Password</Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Button onClick={handleLogout} className="w-full">
+          <Button
+            variant="destructive"
+            onClick={handleLogout}
+            className="w-full"
+          >
             Logout
           </Button>
         </DropdownMenuItem>

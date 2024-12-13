@@ -10,3 +10,8 @@ export interface IRegisterResponse {
   refreshToken: string;
   user: IUser;
 }
+
+export interface IChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}

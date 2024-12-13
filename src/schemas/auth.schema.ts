@@ -13,3 +13,14 @@ export const registerValidationSchema = z.object({
     errorMap: () => ({ message: "Role must be either 'User' or 'Vendor'" }),
   }),
 });
+
+export const changePasswordValidationSchema = z.object({
+  oldPassword: z
+    .string()
+    .trim()
+    .min(1, { message: "Old Password is required" }),
+  newPassword: z
+    .string()
+    .trim()
+    .min(1, { message: "New Password is required" }),
+});

@@ -6,6 +6,7 @@ export const protectedRoutes = [
   "/checkout",
   "/payment",
   "/orders",
+  "/change-password",
   "/login",
   "/register",
 ];

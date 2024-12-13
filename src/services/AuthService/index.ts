@@ -3,7 +3,11 @@
 
 import axiosInstance from "@/lib/AxiosInstance";
 import { IApiResponse } from "@/types";
-import { ILoginResponse, IRegisterResponse } from "@/types/auth.type";
+import {
+  IChangePassword,
+  ILoginResponse,
+  IRegisterResponse,
+} from "@/types/auth.type";
 import httpStatus from "http-status";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
@@ -114,6 +118,33 @@ export const getNewAccessToken = async () => {
     });
 
     return res.data;
+  } catch (error: any) {
+    if (error.response) {
+      const responseData = error.response.data as IApiResponse<null>;
+      const statusCode = error.response.status;
+
+      console.error(`API Error (${statusCode}):`, responseData);
+
+      return {
+        ...responseData,
+        statusCode,
+      };
+    }
+
+    throw new Error(
+      error.message || "Something went wrong. Please try again later."
+    );
+  }
+};
+
+export const changePassword = async (payload: IChangePassword) => {
+  try {
+    const { data } = await axiosInstance.post<IApiResponse<null>>(
+      "/auth/change-password",
+      payload
+    );
+
+    return data;
   } catch (error: any) {
     if (error.response) {
       const responseData = error.response.data as IApiResponse<null>;
