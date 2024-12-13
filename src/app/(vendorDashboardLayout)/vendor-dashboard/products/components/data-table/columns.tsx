@@ -12,6 +12,7 @@ import { MoreVertical } from "lucide-react";
 import DeleteProductDropdownItem from "../DeleteProduct/DeleteProductDropdownItem";
 import { DuplicateProductModal } from "../DuplicateProduct/DuplicateProductModal";
 import { UpdateProductModal } from "../UpdateProduct/UpdateProductModal";
+import ViewReviewsDropdownItem from "../ViewReviews/ViewReviewsDropdownItem";
 
 export const columns: ColumnDef<IProduct>[] = [
   {
@@ -147,6 +148,7 @@ export const columns: ColumnDef<IProduct>[] = [
           <DropdownMenuContent>
             <UpdateProductModal id={product._id} />
             <DuplicateProductModal id={product._id} />
+            <ViewReviewsDropdownItem id={product._id} />
             <DropdownMenuSeparator />
             <DeleteProductDropdownItem id={product._id as string} />
           </DropdownMenuContent>

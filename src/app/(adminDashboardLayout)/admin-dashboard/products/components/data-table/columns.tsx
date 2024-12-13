@@ -3,12 +3,14 @@ import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { IProduct } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreVertical } from "lucide-react";
 import DeleteProductDropdownItem from "../DeleteProduct/DeleteProductDropdownItem";
+import ViewReviewsDropdownItem from "../ViewReviews/ViewReviewsDropdownItem";
 
 export const columns: ColumnDef<IProduct>[] = [
   {
@@ -133,7 +135,7 @@ export const columns: ColumnDef<IProduct>[] = [
     id: "actions",
     header: () => <span className="sr-only">Actions</span>,
     cell: ({ row }) => {
-      const user = row.original;
+      const product = row.original;
 
       return (
         <DropdownMenu>
@@ -142,7 +144,9 @@ export const columns: ColumnDef<IProduct>[] = [
             <span className="sr-only">Actions</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DeleteProductDropdownItem id={user._id as string} />
+            <ViewReviewsDropdownItem id={product._id as string} />
+            <DropdownMenuSeparator />
+            <DeleteProductDropdownItem id={product._id as string} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

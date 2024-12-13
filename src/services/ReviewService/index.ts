@@ -65,3 +65,29 @@ export const createReview = async (reviewData: ICreateReview) => {
     );
   }
 };
+
+export const deleteReview = async (id: string) => {
+  try {
+    const { data } = await axiosInstance.delete<IApiResponse<IReview>>(
+      `/reviews/${id}`
+    );
+
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      const responseData = error.response.data as IApiResponse<null>;
+      const statusCode = error.response.status;
+
+      console.error(`API Error (${statusCode}):`, responseData);
+
+      return {
+        ...responseData,
+        statusCode,
+      };
+    }
+
+    throw new Error(
+      error.message || "Something went wrong. Please try again later."
+    );
+  }
+};

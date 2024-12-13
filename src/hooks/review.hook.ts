@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createReview, getAllReviews } from "@/services/ReviewService";
+import {
+  createReview,
+  deleteReview,
+  getAllReviews,
+} from "@/services/ReviewService";
 import { ICreateReview, IQueryParam } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -17,5 +21,11 @@ export const useGetAllReviews = (params?: IQueryParam[]) => {
 export const useCreateReview = () => {
   return useMutation<any, Error, ICreateReview>({
     mutationFn: createReview,
+  });
+};
+
+export const useDeleteReview = () => {
+  return useMutation<any, Error, string>({
+    mutationFn: deleteReview,
   });
 };
