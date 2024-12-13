@@ -1,5 +1,4 @@
 import { DataTableColumnHeader } from "@/components/Shared/DataTable/data-table-column-header";
-import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
