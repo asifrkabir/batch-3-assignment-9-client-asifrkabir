@@ -40,7 +40,10 @@ const Products = ({ customParams }: IProps) => {
 
   return (
     <div className="w-full">
-      <AllProductsFilter setParams={setParams} />
+      <AllProductsFilter
+        setParams={setParams}
+        initialCategory={(categoryId as string) || undefined}
+      />
 
       {isLoading ? (
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">

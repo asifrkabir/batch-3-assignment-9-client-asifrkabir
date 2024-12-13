@@ -17,10 +17,23 @@ import { useForm } from "react-hook-form";
 
 interface AllProductsFilterProps {
   setParams: React.Dispatch<React.SetStateAction<IQueryParam[]>>;
+  initialCategory?: string;
 }
 
-const AllProductsFilter: React.FC<AllProductsFilterProps> = ({ setParams }) => {
-  const { register, setValue, watch } = useForm();
+const AllProductsFilter: React.FC<AllProductsFilterProps> = ({
+  setParams,
+  initialCategory,
+}) => {
+  const { register, setValue, watch } = useForm({
+    defaultValues: {
+      searchTerm: undefined,
+      category: initialCategory || "all",
+      isDiscounted: undefined,
+      priceMin: undefined,
+      priceMax: undefined,
+    },
+  });
+
   const searchTerm = useDebounce(watch("searchTerm"));
   const category = watch("category");
   const isDiscounted = watch("isDiscounted");
