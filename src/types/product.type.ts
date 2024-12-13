@@ -16,6 +16,7 @@ export interface IProduct {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
+  isFollowed?: number;
 }
 
 export interface IUpdateProduct {

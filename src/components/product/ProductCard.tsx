@@ -10,10 +10,16 @@ import {
 } from "@/components/ui/card";
 import { useRecentProducts } from "@/context/recentProducts.provider";
 import { IProduct } from "@/types";
-import { Eye } from "lucide-react";
+import { Eye, UserCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import AddToCart from "../cart/AddToCart";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 interface IProps {
   product: IProduct;
@@ -35,6 +41,7 @@ const ProductCard = ({ product }: IProps) => {
     imageUrls,
     onSale,
     shop,
+    isFollowed,
   } = product;
 
   const handleViewDetails = () => {
@@ -52,12 +59,23 @@ const ProductCard = ({ product }: IProps) => {
             >
               <h2 className="text-xl font-bold">{name}</h2>
             </Link>
-            <Link
-              href={`/shops/${shop._id}`}
-              className="hover:text-emerald-500"
-            >
-              <h3 className="text-md mb-4">{shop.name}</h3>
-            </Link>
+            <TooltipProvider>
+              <Link
+                href={`/shops/${shop._id}`}
+                className="hover:text-emerald-500 flex items-center gap-2 mb-4 mt-2 max-w-max"
+              >
+                <h3 className="text-md">{shop.name}</h3>
+
+                {isFollowed === 1 && (
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <UserCheck className="w-5 h-5 text-emerald-600" />
+                    </TooltipTrigger>
+                    <TooltipContent>You are following this shop</TooltipContent>
+                  </Tooltip>
+                )}
+              </Link>
+            </TooltipProvider>
             <h3 className="text-md mb-4">Category: {category.name}</h3>
             {description && (
               <p className="text-sm text-muted-foreground">
