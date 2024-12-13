@@ -3,12 +3,14 @@ import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { IUser } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreVertical } from "lucide-react";
 import DeleteUserDropdownItem from "../DeleteUser/DeleteUserDropdownItem";
+import ToggleUserSuspendDropdownItem from "../ToggleUserSuspend/ToggleUserSuspendDropdownItem";
 
 export const columns: ColumnDef<IUser>[] = [
   {
@@ -84,6 +86,45 @@ export const columns: ColumnDef<IUser>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "isSuspended",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }) => {
+      const isSuspended = row.getValue("isSuspended");
+      let renderedRole = (
+        <div className="flex space-x-2">
+          <span className="w-[150px]">{row.getValue("isSuspended")}</span>
+        </div>
+      );
+
+      switch (isSuspended) {
+        case true:
+          renderedRole = (
+            <Badge className="uppercase bg-red-500">Suspended</Badge>
+          );
+          break;
+        case false:
+          renderedRole = (
+            <Badge className="uppercase bg-emerald-500">Active</Badge>
+          );
+          break;
+
+        default:
+          break;
+      }
+
+      return renderedRole;
+    },
+    filterFn: (row, columnId, filterValue) => {
+      const cellValue = row.getValue(columnId);
+      // Check for exact match
+      return filterValue.includes(cellValue);
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     id: "actions",
     header: () => <span className="sr-only">Actions</span>,
     cell: ({ row }) => {
@@ -96,6 +137,11 @@ export const columns: ColumnDef<IUser>[] = [
             <span className="sr-only">Actions</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
+            <ToggleUserSuspendDropdownItem
+              id={user._id as string}
+              isSuspended={user.isSuspended}
+            />
+            <DropdownMenuSeparator />
             <DeleteUserDropdownItem id={user._id as string} />
           </DropdownMenuContent>
         </DropdownMenu>

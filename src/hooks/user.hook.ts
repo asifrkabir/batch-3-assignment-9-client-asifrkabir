@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { deleteUser, getAllUsers, getTotalUsers } from "@/services/UserService";
-import { IApiResponse, IQueryParam, IUser } from "@/types";
+import {
+  deleteUser,
+  getAllUsers,
+  getTotalUsers,
+  toggleUserSuspend,
+} from "@/services/UserService";
+import { IApiResponse, IQueryParam, ISuspendUserToggle, IUser } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import httpStatus from "http-status";
 import { toast } from "sonner";
@@ -36,6 +41,34 @@ export const useDeleteUser = () => {
     onError: (error) => {
       console.error(error);
       toast.error(error.message || "Failed to delete User. Please try again.");
+    },
+  });
+};
+
+export const useToggleUserSuspend = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<any, Error, ISuspendUserToggle>({
+    mutationFn: toggleUserSuspend,
+    onSuccess: (res: IApiResponse<IUser>) => {
+      if (res.statusCode === httpStatus.OK) {
+        toast.success("User status updated successfully");
+
+        queryClient.invalidateQueries({
+          queryKey: ["USERS"],
+        });
+      } else {
+        console.error(res);
+        toast.error(
+          res.message || "Failed to update user status. Please try again."
+        );
+      }
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error(
+        error.message || "Failed to update user status. Please try again."
+      );
     },
   });
 };
