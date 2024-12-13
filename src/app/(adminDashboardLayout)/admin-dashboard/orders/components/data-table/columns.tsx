@@ -51,7 +51,7 @@ export const columns: ColumnDef<IOrder>[] = [
       <DataTableColumnHeader column={column} title="Total Price ($)" />
     ),
     cell: ({ row }) => {
-      const totalPrice = parseFloat(row.original.totalPrice.toFixed(2))
+      const totalPrice = parseFloat(row.original?.totalPrice.toFixed(2));
 
       return (
         <div className="flex space-x-2">
@@ -62,45 +62,42 @@ export const columns: ColumnDef<IOrder>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  // {
-  //   accessorKey: "status",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Payment Status" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const status = row.getValue("status");
-  //     let renderedStatus = (
-  //       <div className="flex space-x-2">
-  //         <span className="w-[150px]">{row.getValue("status")}</span>
-  //       </div>
-  //     );
+  {
+    accessorKey: "discount",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Discount ($)" />
+    ),
+    cell: ({ row }) => {
+      const discount = parseFloat((row.original?.discount || 0).toFixed(2));
 
-  //     switch (status) {
-  //       case "pending":
-  //         renderedStatus = (
-  //           <Badge className="uppercase bg-red-500">{status}</Badge>
-  //         );
-  //         break;
-  //       case "complete":
-  //         renderedStatus = (
-  //           <Badge className="uppercase bg-emerald-500">{status}</Badge>
-  //         );
-  //         break;
+      return (
+        <div className="flex space-x-2">
+          <span className="w-[150px]">{discount}</span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "finalPrice",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Final Price ($)" />
+    ),
+    cell: ({ row }) => {
+      const totalPrice = parseFloat(row.original?.totalPrice.toFixed(2));
+      const discount = parseFloat((row.original?.discount || 0).toFixed(2));
+      const finalPrice = parseFloat((totalPrice - discount).toFixed(2));
 
-  //       default:
-  //         break;
-  //     }
-
-  //     return renderedStatus;
-  //   },
-  //   filterFn: (row, columnId, filterValue) => {
-  //     const cellValue = row.getValue(columnId);
-  //     // Check for exact match
-  //     return filterValue.includes(cellValue);
-  //   },
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
+      return (
+        <div className="flex space-x-2">
+          <span className="w-[150px]">{finalPrice}</span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: "createdAt",
     header: ({ column }) => (

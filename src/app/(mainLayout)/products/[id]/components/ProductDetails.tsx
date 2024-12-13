@@ -26,7 +26,6 @@ const ProductDetails = ({ product }: IProps) => {
     shop,
   } = product;
 
-  // Fetch reviews for the current product
   const { data: reviewsData, isLoading: isReviewsLoading } = useQuery({
     ...getAllReviewsQuery([
       { name: "limit", value: "10000" },
