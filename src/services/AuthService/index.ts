@@ -5,8 +5,10 @@ import axiosInstance from "@/lib/AxiosInstance";
 import { IApiResponse } from "@/types";
 import {
   IChangePassword,
+  IForgotPassword,
   ILoginResponse,
   IRegisterResponse,
+  IResetPassword,
 } from "@/types/auth.type";
 import httpStatus from "http-status";
 import { jwtDecode } from "jwt-decode";
@@ -142,6 +144,65 @@ export const changePassword = async (payload: IChangePassword) => {
     const { data } = await axiosInstance.post<IApiResponse<null>>(
       "/auth/change-password",
       payload
+    );
+
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      const responseData = error.response.data as IApiResponse<null>;
+      const statusCode = error.response.status;
+
+      console.error(`API Error (${statusCode}):`, responseData);
+
+      return {
+        ...responseData,
+        statusCode,
+      };
+    }
+
+    throw new Error(
+      error.message || "Something went wrong. Please try again later."
+    );
+  }
+};
+
+export const forgotPassword = async (payload: IForgotPassword) => {
+  try {
+    const { data } = await axiosInstance.post<IApiResponse<null>>(
+      "/auth/forgot-password",
+      payload
+    );
+
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      const responseData = error.response.data as IApiResponse<null>;
+      const statusCode = error.response.status;
+
+      console.error(`API Error (${statusCode}):`, responseData);
+
+      return {
+        ...responseData,
+        statusCode,
+      };
+    }
+
+    throw new Error(
+      error.message || "Something went wrong. Please try again later."
+    );
+  }
+};
+
+export const resetPassword = async (resetPasswordData: IResetPassword) => {
+  try {
+    const { data } = await axiosInstance.post<IApiResponse<null>>(
+      "/auth/reset-password",
+      resetPasswordData.payload,
+      {
+        headers: {
+          Authorization: resetPasswordData.token,
+        },
+      }
     );
 
     return data;

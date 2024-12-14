@@ -2,7 +2,12 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getCurrentUser } from "./services/AuthService";
 
-const authRoutes = ["/login", "/register"];
+const authRoutes = [
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/reset-password",
+];
 
 type Role = keyof typeof roleBasedRoutes;
 
@@ -51,5 +56,7 @@ export const config = {
     "/change-password",
     "/login",
     "/register",
+    "/forgot-password",
+    "/reset-password",
   ],
 };

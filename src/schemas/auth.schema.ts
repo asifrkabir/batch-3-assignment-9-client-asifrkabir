@@ -14,6 +14,17 @@ export const registerValidationSchema = z.object({
   }),
 });
 
+export const forgotPasswordValidationSchema = z.object({
+  email: z.string().trim().email("Please enter a valid email"),
+});
+
+export const resetPasswordValidationSchema = z.object({
+  newPassword: z
+    .string()
+    .trim()
+    .min(1, { message: "New Password is required" }),
+});
+
 export const changePasswordValidationSchema = z.object({
   oldPassword: z
     .string()

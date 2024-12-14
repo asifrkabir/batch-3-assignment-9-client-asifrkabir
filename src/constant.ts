@@ -9,4 +9,6 @@ export const protectedRoutes = [
   "/change-password",
   "/login",
   "/register",
+  "/forgot-password",
+  "/reset-password",
 ];

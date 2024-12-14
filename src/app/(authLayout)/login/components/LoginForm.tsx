@@ -28,10 +28,7 @@ import { toast } from "sonner";
 export function LoginForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const {
-    user,
-    setIsLoading: setUserLoading,
-  } = useUser();
+  const { user, setIsLoading: setUserLoading } = useUser();
   const [loginSuccess, setLoginSuccess] = useState(false);
 
   const redirect = searchParams.get("redirect");
@@ -108,7 +105,7 @@ export function LoginForm() {
                 required
               />
 
-              <div>
+              <div className="mb-4">
                 <AppInput
                   label="Password"
                   name="password"
@@ -116,6 +113,10 @@ export function LoginForm() {
                   placeholder="Enter your password"
                   required
                 />
+
+                <Link href="/forgot-password" className="underline text-sm">
+                  Forgot Password?
+                </Link>
               </div>
 
               <Button type="submit" className="w-full">
