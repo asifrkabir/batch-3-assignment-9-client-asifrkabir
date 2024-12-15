@@ -103,6 +103,7 @@ export function AddShopForm({ closeModal }: IProps) {
             label="Description"
             type="text"
             placeholder="Enter shop description"
+            required
           />
 
           <div className="min-w-fit flex-1">
