@@ -23,7 +23,7 @@ import httpStatus from "http-status";
 import { Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -31,8 +31,9 @@ export function RegisterForm() {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   const [imagePreviews, setImagePreviews] = useState<string[] | []>([]);
   const router = useRouter();
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
-  const { setIsLoading: setUserLoading } = useUser();
+  const { user, setIsLoading: setUserLoading } = useUser();
   const { mutate: handleUserRegister, isPending } = useUserRegistration();
 
   const handleImageAdd = (e: ChangeEvent<HTMLInputElement>) => {
@@ -72,34 +73,45 @@ export function RegisterForm() {
     handleUserRegister(formData, {
       onSuccess: (res: IApiResponse<IRegisterResponse>) => {
         if (res.statusCode === httpStatus.CREATED) {
+          setRegistrationSuccess(true);
           setUserLoading(true);
 
           toast.success("Registration successful!");
-
-          const role = data?.role;
-
-          switch (role) {
-            case "vendor":
-              router.push("/vendor-dashboard");
-              break;
-
-            default:
-              router.push("/");
-              break;
-          }
-
-          router.push("/");
         } else {
+          setRegistrationSuccess(false);
+
           console.error(res);
           toast.error(res.message);
         }
       },
       onError: (error) => {
+        setRegistrationSuccess(false);
+
         console.error(error);
         toast.error(error.message || "Registration failed. Please try again.");
       },
     });
   };
+
+  useEffect(() => {
+    if (!isPending && registrationSuccess && user) {
+      const role = user?.role;
+
+      switch (role) {
+        case "admin":
+          router.push("/admin-dashboard");
+          break;
+
+        case "vendor":
+          router.push("/vendor-dashboard");
+          break;
+
+        default:
+          router.push("/");
+          break;
+      }
+    }
+  }, [isPending, registrationSuccess, router, user]);
 
   return (
     <>
