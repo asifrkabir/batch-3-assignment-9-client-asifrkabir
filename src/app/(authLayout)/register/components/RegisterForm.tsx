@@ -76,7 +76,7 @@ export function RegisterForm() {
 
           toast.success("Registration successful!");
 
-          const role = res?.data?.user?.role;
+          const role = data?.role;
 
           switch (role) {
             case "vendor":
