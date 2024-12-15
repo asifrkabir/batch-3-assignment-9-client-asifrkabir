@@ -9,6 +9,7 @@ export interface IReview {
   order: IOrder;
   rating: number;
   comment?: string;
+  reply?: string;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -19,4 +20,11 @@ export interface ICreateReview {
   order: string;
   rating: number;
   comment?: string;
+}
+
+export interface IReplyToReview {
+  id: string;
+  payload: {
+    reply: string;
+  };
 }

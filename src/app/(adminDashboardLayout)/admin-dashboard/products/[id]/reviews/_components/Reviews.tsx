@@ -7,9 +7,10 @@ import ReviewCard from "./ReviewCard";
 interface IProps {
   productId: string;
   allowDelete?: boolean;
+  allowReply?: boolean;
 }
 
-const Reviews = ({ productId, allowDelete }: IProps) => {
+const Reviews = ({ productId, allowDelete, allowReply }: IProps) => {
   const [params] = useState<IQueryParam[]>([
     { name: "product", value: productId },
   ]);
@@ -51,6 +52,7 @@ const Reviews = ({ productId, allowDelete }: IProps) => {
           key={review._id}
           review={review}
           allowDelete={allowDelete}
+          allowReply={allowReply}
         />
       ))}
     </div>

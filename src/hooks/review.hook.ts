@@ -3,8 +3,9 @@ import {
   createReview,
   deleteReview,
   getAllReviews,
+  replyToReview,
 } from "@/services/ReviewService";
-import { ICreateReview, IQueryParam } from "@/types";
+import { ICreateReview, IQueryParam, IReplyToReview } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const getAllReviewsQuery = (params?: IQueryParam[]) => ({
@@ -27,5 +28,11 @@ export const useCreateReview = () => {
 export const useDeleteReview = () => {
   return useMutation<any, Error, string>({
     mutationFn: deleteReview,
+  });
+};
+
+export const useReplyToReview = () => {
+  return useMutation<any, Error, IReplyToReview>({
+    mutationFn: replyToReview,
   });
 };

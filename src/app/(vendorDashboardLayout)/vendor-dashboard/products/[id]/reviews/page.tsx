@@ -11,7 +11,7 @@ const ProductReviewsPage = () => {
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold md:text-2xl">Product Reviews</h1>
       </div>
-      <Reviews productId={id as string} />
+      <Reviews productId={id as string} allowReply={true} />
     </div>
   );
 };

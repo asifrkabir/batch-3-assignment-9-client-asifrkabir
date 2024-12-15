@@ -47,7 +47,10 @@ const RecentOrdersCard = ({ shopId }: IProps) => {
                   </p>
                 </div>
                 <div className="ml-auto font-medium">
-                  +${order?.totalPrice - (order?.discount || 0) || "Unknown"}
+                  +$
+                  {parseFloat(
+                    (order?.totalPrice - (order?.discount || 0)).toFixed(2)
+                  ) || "Unknown"}
                 </div>
               </div>
             ))

@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const ReviewCard = ({ review }: IProps) => {
-  const { user, rating, comment, createdAt } = review;
+  const { user, rating, comment, reply, createdAt } = review;
 
   return (
     <Card className="w-full shadow-md border">
@@ -56,7 +56,14 @@ const ReviewCard = ({ review }: IProps) => {
           ))}
         </div>
 
-        {comment && <p className="text-sm text-gray-700">{comment}</p>}
+        {comment && <p className="text-sm">{comment}</p>}
+
+        {reply && (
+          <div className="bg-gray-100 dark:bg-zinc-800 p-3 rounded-lg">
+            <p className="text-sm font-semibold">Reply from vendor:</p>
+            <p className="text-sm  mt-1">{reply}</p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

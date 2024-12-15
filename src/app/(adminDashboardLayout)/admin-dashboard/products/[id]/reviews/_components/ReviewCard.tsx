@@ -1,3 +1,4 @@
+import { ReplyToReviewModal } from "@/app/(vendorDashboardLayout)/vendor-dashboard/products/[id]/reviews/_components/ReplyToReview/ReplyToReviewModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IReview } from "@/types";
@@ -8,10 +9,11 @@ import DeleteReview from "./DeleteReview";
 interface IProps {
   review: IReview;
   allowDelete?: boolean;
+  allowReply?: boolean;
 }
 
-const ReviewCard = ({ review, allowDelete }: IProps) => {
-  const { _id, user, rating, comment, createdAt } = review;
+const ReviewCard = ({ review, allowDelete, allowReply }: IProps) => {
+  const { _id, user, rating, comment, reply, createdAt } = review;
 
   return (
     <Card className="w-full shadow-md border">
@@ -46,6 +48,7 @@ const ReviewCard = ({ review, allowDelete }: IProps) => {
             </div>
           </div>
           {allowDelete && <DeleteReview id={_id} />}
+          {allowReply && !reply && <ReplyToReviewModal id={_id} />}
         </div>
       </CardHeader>
 
@@ -61,7 +64,14 @@ const ReviewCard = ({ review, allowDelete }: IProps) => {
           ))}
         </div>
 
-        {comment && <p className="text-sm text-gray-700">{comment}</p>}
+        {comment && <p className="text-sm">{comment}</p>}
+
+        {reply && (
+          <div className="bg-gray-100 dark:bg-zinc-800 p-3 rounded-lg">
+            <p className="text-sm font-semibold">Reply from vendor:</p>
+            <p className="text-sm  mt-1">{reply}</p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
